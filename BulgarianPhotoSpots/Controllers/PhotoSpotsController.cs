@@ -6,7 +6,18 @@ namespace BulgarianPhotoSpots.Controllers
     {
         public IActionResult Index()
         {
-            ViewData["Message"] = "Explore beautiful photo spots in Bulgaria";
+            var photoSpots = new List<string>
+            {
+                "Седемте рилски езера",
+                "Белоградчишките скали",
+                "Нос Калиакра",
+                "Мелнишките пирамиди",
+                "Рилски манастир"
+            };
+
+            ViewData["Title"] = "Photo Spots in Bulgaria";
+            ViewData["Description"] = "Explore beautiful photo spots in Bulgaria";
+            ViewData["PhotoSpots"] = photoSpots;
             return View();
         }
         public IActionResult About()

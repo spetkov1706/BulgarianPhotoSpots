@@ -5,3 +5,9 @@
 <h1>Photo Spots in Bulgaria</h1>
 <p>@ViewData["Message"]</p>
 
+<ul>
+    @foreach (var spot in (List<string>)ViewData["PhotoSpots"])
+    {
+        <li>@spot</li>
+    }
+</ul>
