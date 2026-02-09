@@ -6,6 +6,7 @@ namespace BulgarianPhotoSpots.Controllers
     {
         public IActionResult Index()
         {
+            ViewData["Message"] = "Explore beautiful photo spots in Bulgaria";
             return View();
         }
         public IActionResult About()
