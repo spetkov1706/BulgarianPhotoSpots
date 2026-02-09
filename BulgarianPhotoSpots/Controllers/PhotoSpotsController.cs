@@ -10,7 +10,7 @@ namespace BulgarianPhotoSpots.Controllers
         }
         public IActionResult About()
         {
-            return Content("About Bulgarian Photo Spots");
+            return View();
         }
     }
 }
