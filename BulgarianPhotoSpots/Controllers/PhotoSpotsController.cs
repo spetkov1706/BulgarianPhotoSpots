@@ -6,11 +6,11 @@ namespace BulgarianPhotoSpots.Controllers
     {
         public IActionResult Index()
         {
-            return Content("PhotoSpots Index page");
+            return View();
         }
-        public IActionResult Details(int id)
+        public IActionResult About()
         {
-            return Content($"Photo spot details for id = {id}");
+            return Content("About Bulgarian Photo Spots");
         }
     }
 }
