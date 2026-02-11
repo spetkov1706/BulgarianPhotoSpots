@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BulgarianPhotoSpots.Models;
+using Microsoft.AspNetCore.Mvc;
+using System.Reflection;
 
 namespace BulgarianPhotoSpots.Controllers
 {
@@ -13,9 +15,15 @@ namespace BulgarianPhotoSpots.Controllers
         {
             return View();
         }
-        public IActionResult Create()
+        [HttpPost]
+        public IActionResult Create(PhotoSpot model)
         {
-            return View();
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            return RedirectToAction("Index");
         }
 
         public IActionResult About()
