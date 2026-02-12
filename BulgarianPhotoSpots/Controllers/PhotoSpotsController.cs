@@ -14,9 +14,10 @@ namespace BulgarianPhotoSpots.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var photoSpots = await _context.PhotoSpots.ToListAsync();
+            return View(photoSpots);
         }
 
         public IActionResult Details()
@@ -29,15 +30,20 @@ namespace BulgarianPhotoSpots.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(PhotoSpot model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(PhotoSpot model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            return RedirectToAction("Index");
+            _context.PhotoSpots.Add(model);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
+
 
         public IActionResult About()
         {

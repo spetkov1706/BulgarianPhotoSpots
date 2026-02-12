@@ -1,17 +1,31 @@
-﻿@{
+﻿@model IEnumerable<BulgarianPhotoSpots.Models.PhotoSpot>
+
+@{
     ViewData["Title"] = "Photo Spots";
 }
 
 <h1>Photo Spots in Bulgaria</h1>
-<p>@ViewData["Message"]</p>
 
-<ul>
-    @foreach (var spot in (List<string>)ViewData["PhotoSpots"])
-    {
-        <li>@spot</li>
-    }
-</ul>
+<a asp-action="Create" class="btn btn-primary mb-3">Add New Photo Spot</a>
 
-<a asp-action="Details" class="btn btn-secondary">
-    View Details
-</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Location</th>
+            <th>Rating</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var spot in Model)
+        {
+            <tr>
+                <td>@spot.Title</td>
+                <td>@spot.Description</td>
+                <td>@spot.Location</td>
+                <td>@spot.Rating</td>
+            </tr>
+        }
+    </tbody>
+</table>
