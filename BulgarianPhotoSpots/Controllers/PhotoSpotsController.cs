@@ -32,6 +32,23 @@ namespace BulgarianPhotoSpots.Controllers
 
             return View(photoSpot);
         }
+        
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var photoSpot = await _context.PhotoSpots.FindAsync(id);
+
+            if (photoSpot == null)
+            {
+                return NotFound();
+            }
+
+            return View(photoSpot);
+        }
 
 
         public IActionResult Create()
