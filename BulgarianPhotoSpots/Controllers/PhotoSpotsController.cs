@@ -1,11 +1,19 @@
 ﻿using BulgarianPhotoSpots.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
+using BulgarianPhotoSpots.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace BulgarianPhotoSpots.Controllers
 {
     public class PhotoSpotsController : Controller
     {
+        private readonly ApplicationDbContext _context;
+        public PhotoSpotsController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         public IActionResult Index()
         {
             return View();
