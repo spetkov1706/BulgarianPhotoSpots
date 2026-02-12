@@ -23,6 +23,10 @@ namespace BulgarianPhotoSpots.Controllers
         [HttpPost]
         public IActionResult Create(PhotoSpot model)
         {
+            if (model.Title == "Test")
+            {
+                ModelState.AddModelError("Title", "The title 'Test' is not allowed.");
+            }
             if (!ModelState.IsValid)
             {
                 return View(model);
