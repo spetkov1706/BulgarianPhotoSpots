@@ -1,8 +1,14 @@
-﻿@{
-    ViewData["Title"] = "Details";
-}
+﻿@model BulgarianPhotoSpots.Models.PhotoSpot
 
-<h1>Photo Spot Details</h1>
-<p>This is the Details page.</p>
+<h2>Photo Spot Details</h2>
 
-<a asp-action = "Index">Back</a>
+<div class="card mt-3">
+    <div class="card-body">
+        <h4 class="card-title">@Model.Title</h4>
+        <p><strong>Description:</strong> @Model.Description</p>
+        <p><strong>Location:</strong> @Model.Location</p>
+        <p><strong>Rating:</strong> @Model.Rating</p>
+    </div>
+</div>
+
+<a asp-action="Index" class="btn btn-secondary mt-3">Back</a>
