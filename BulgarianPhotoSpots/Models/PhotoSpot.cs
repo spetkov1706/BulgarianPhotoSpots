@@ -6,10 +6,10 @@ namespace BulgarianPhotoSpots.Models
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage="Title is required!")]
+        [Required(ErrorMessage = "Title is required!")]
         [StringLength(100, MinimumLength = 3,
             ErrorMessage = "Title must be between 3 and 100 characters.")]
-        public string Title { get; set; }
+        public string Title { get; set; } = null!; 
 
         [Required(ErrorMessage = "Description is required.")]
         [StringLength(500, MinimumLength = 10,

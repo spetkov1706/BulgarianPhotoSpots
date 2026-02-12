@@ -15,6 +15,11 @@ namespace BulgarianPhotoSpots.Controllers
         {
             return View();
         }
+        public IActionResult Create()
+        {
+            return View();
+        }
+
         [HttpPost]
         public IActionResult Create(PhotoSpot model)
         {
