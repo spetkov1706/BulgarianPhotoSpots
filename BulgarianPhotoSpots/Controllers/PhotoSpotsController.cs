@@ -20,10 +20,20 @@ namespace BulgarianPhotoSpots.Controllers
             return View(photoSpots);
         }
 
-        public IActionResult Details()
+        public async Task<IActionResult> Details(int id)
         {
-            return View();
+            var photoSpot = await _context.PhotoSpots
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (photoSpot == null)
+            {
+                return NotFound();
+            }
+
+            return View(photoSpot);
         }
+
+
         public IActionResult Create()
         {
             return View();
