@@ -32,6 +32,27 @@ namespace BulgarianPhotoSpots.Controllers
 
             return View(photoSpot);
         }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(PhotoSpot model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            _context.PhotoSpots.Add(model);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
         
         public async Task<IActionResult> Edit(int? id)
         {
@@ -70,27 +91,34 @@ namespace BulgarianPhotoSpots.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
-        public IActionResult Create()
+        public async Task<IActionResult> Delete(int? id)
         {
-            return View();
+            if (id == null)
+                return NotFound();
+
+            var spot = await _context.PhotoSpots
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (spot == null)
+                return NotFound();
+
+            return View(spot);
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(PhotoSpot model)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+            var spot = await _context.PhotoSpots.FindAsync(id);
 
-            _context.PhotoSpots.Add(model);
-            await _context.SaveChangesAsync();
+            if (spot != null)
+            {
+                _context.PhotoSpots.Remove(spot);
+                await _context.SaveChangesAsync();
+            }
 
             return RedirectToAction(nameof(Index));
         }
-
 
         public IActionResult About()
         {
