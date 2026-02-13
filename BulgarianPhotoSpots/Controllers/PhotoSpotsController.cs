@@ -109,16 +109,16 @@ namespace BulgarianPhotoSpots.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var spot = await _context.PhotoSpots.FindAsync(id);
-
-            if (spot != null)
+            var photoSpot = await _context.PhotoSpots.FindAsync(id);
+            if (photoSpot != null)
             {
-                _context.PhotoSpots.Remove(spot);
+                _context.PhotoSpots.Remove(photoSpot);
                 await _context.SaveChangesAsync();
             }
 
             return RedirectToAction(nameof(Index));
         }
+
 
         public IActionResult About()
         {
