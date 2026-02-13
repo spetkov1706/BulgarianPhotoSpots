@@ -27,7 +27,12 @@
                 <td>@spot.Location</td>
                 <td>@spot.Rating</td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@spot.Id" class="btn btn-warning btn-sm">Edit</a>
+                    <a asp-action="Details" asp-route-id="@spot.Id"
+                       class="btn btn-info btn-sm">Details</a>
+                        
+                    <a asp-action="Edit" asp-route-id="@spot.Id" 
+                    class="btn btn-warning btn-sm">Edit</a>
+
                     <a asp-action="Delete" asp-route-id="@spot.Id"
                        class="btn btn-danger btn-sm">Delete</a>
 
