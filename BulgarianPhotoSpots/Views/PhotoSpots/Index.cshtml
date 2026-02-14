@@ -4,6 +4,13 @@
     ViewData["Title"] = "Photo Spots";
 }
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
 <h1>Photo Spots in Bulgaria</h1>
 
 <h4>@ViewData["PageTitle"]</h4>

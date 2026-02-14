@@ -56,6 +56,8 @@ namespace BulgarianPhotoSpots.Controllers
             _context.PhotoSpots.Add(model);
             await _context.SaveChangesAsync();
 
+            TempData["SuccessMessage"] = "Photo spot created successfully!";
+
             return RedirectToAction(nameof(Index));
         }
 
