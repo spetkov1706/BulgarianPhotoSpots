@@ -91,6 +91,12 @@ namespace BulgarianPhotoSpots.Controllers
                 return NotFound();
             }
 
+            ViewData["CategoryId"] = new SelectList(
+                   await _context.Categories.ToListAsync(),
+                   "Id",
+                   "Name",
+                   photoSpot.CategoryId
+            );
             return View(photoSpot);
         }
 
