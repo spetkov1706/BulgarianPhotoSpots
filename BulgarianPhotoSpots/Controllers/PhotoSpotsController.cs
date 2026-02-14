@@ -111,6 +111,12 @@ namespace BulgarianPhotoSpots.Controllers
 
             if (!ModelState.IsValid)
             {
+                ViewData["CategoryId"] = new SelectList(
+                     await _context.Categories.ToListAsync(),
+                     "Id",
+                     "Name",
+                     model.CategoryId
+                );
                 return View(model);
             }
 
