@@ -20,6 +20,7 @@ namespace BulgarianPhotoSpots.Controllers
             return View(photoSpots);
         }
 
+        [Route("PhotoSpots/Details/{id:int}")]
         public async Task<IActionResult> Details(int id)
         {
             var photoSpot = await _context.PhotoSpots
