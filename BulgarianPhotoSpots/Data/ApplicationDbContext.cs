@@ -12,6 +12,6 @@ namespace BulgarianPhotoSpots.Data
 
         public DbSet<PhotoSpot> PhotoSpots { get; set; }
         public DbSet<Category> Categories { get; set; }
-
+        public DbSet<Review> Reviews { get; set; }
     }
 }
