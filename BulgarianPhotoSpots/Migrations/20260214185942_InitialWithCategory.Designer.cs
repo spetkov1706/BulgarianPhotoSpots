@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BulgarianPhotoSpots.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260212191459_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260214185942_InitialWithCategory")]
+    partial class InitialWithCategory
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,24 @@ namespace BulgarianPhotoSpots.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("BulgarianPhotoSpots.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("BulgarianPhotoSpots.Models.PhotoSpot", b =>
                 {
                     b.Property<int>("Id")
@@ -31,6 +49,9 @@ namespace BulgarianPhotoSpots.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -51,7 +72,25 @@ namespace BulgarianPhotoSpots.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("PhotoSpots");
+                });
+
+            modelBuilder.Entity("BulgarianPhotoSpots.Models.PhotoSpot", b =>
+                {
+                    b.HasOne("BulgarianPhotoSpots.Models.Category", "Category")
+                        .WithMany("PhotoSpots")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("BulgarianPhotoSpots.Models.Category", b =>
+                {
+                    b.Navigation("PhotoSpots");
                 });
 #pragma warning restore 612, 618
         }
