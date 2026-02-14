@@ -2,6 +2,11 @@
 
 <h2>Photo Spot Details</h2>
 
+@if (!string.IsNullOrEmpty(ViewBag.Tab))
+{
+    <p><strong>Selected Tab:</strong> @ViewBag.Tab</p>
+}
+
 <div class="card mt-3">
     <div class="card-body">
         <h4 class="card-title">@Model.Title</h4>

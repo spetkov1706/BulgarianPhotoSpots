@@ -20,8 +20,7 @@ namespace BulgarianPhotoSpots.Controllers
             return View(photoSpots);
         }
 
-        [Route("PhotoSpots/Details/{id:int}")]
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int id, string? tab)
         {
             var photoSpot = await _context.PhotoSpots
                 .FirstOrDefaultAsync(p => p.Id == id);
@@ -30,6 +29,8 @@ namespace BulgarianPhotoSpots.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.Tab = tab;
 
             return View(photoSpot);
         }
