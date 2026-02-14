@@ -1,8 +1,9 @@
-﻿using BulgarianPhotoSpots.Models;
+﻿using BulgarianPhotoSpots.Data;
+using BulgarianPhotoSpots.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection;
-using BulgarianPhotoSpots.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace BulgarianPhotoSpots.Controllers
 {
@@ -39,10 +40,17 @@ namespace BulgarianPhotoSpots.Controllers
             return View(photoSpot);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewData["CategoryId"] = new SelectList(
+                await _context.Categories.ToListAsync(),
+                "Id",
+                "Name"
+            );
+
             return View();
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
