@@ -17,6 +17,10 @@ namespace BulgarianPhotoSpots.Controllers
         public async Task<IActionResult> Index()
         {
             var photoSpots = await _context.PhotoSpots.ToListAsync();
+
+            ViewData["PageTitle"] = "All Bulgarian Photo Spots";
+            ViewBag.Count = photoSpots.Count;
+
             return View(photoSpots);
         }
 
