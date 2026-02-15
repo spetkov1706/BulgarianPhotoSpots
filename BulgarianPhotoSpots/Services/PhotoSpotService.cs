@@ -16,6 +16,7 @@ namespace BulgarianPhotoSpots.Services
         public async Task<List<PhotoSpot>> GetAllAsync()
         {
             return await _context.PhotoSpots
+                .AsNoTracking()
                 .Include(p => p.Category)
                 .ToListAsync();
         }
@@ -23,6 +24,7 @@ namespace BulgarianPhotoSpots.Services
         public async Task<PhotoSpot?> GetByIdAsync(int id)
         {
             return await _context.PhotoSpots
+                .AsNoTracking()
                 .Include(p => p.Category)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
