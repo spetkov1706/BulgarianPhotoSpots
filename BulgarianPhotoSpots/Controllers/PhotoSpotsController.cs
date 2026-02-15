@@ -11,9 +11,12 @@ namespace BulgarianPhotoSpots.Controllers
     public class PhotoSpotsController : Controller
     {
         private readonly IPhotoSpotService _photoSpotService;
-        public PhotoSpotsController(IPhotoSpotService photoSpotService)
+        private readonly ICategoryService _categoryService;
+
+        public PhotoSpotsController(IPhotoSpotService photoSpotService, ICategoryService categoryService)
         {
             _photoSpotService = photoSpotService;
+            _categoryService = categoryService;
         }
 
         public async Task<IActionResult> Index()
@@ -40,7 +43,7 @@ namespace BulgarianPhotoSpots.Controllers
 
         public async Task<IActionResult> Create()
         {
-            var categories = await _photoSpotService.GetAllCategoriesAsync();
+            var categories = await _categoryService.GetAllAsync();
 
             ViewData["CategoryId"] = new SelectList(
                 categories,
@@ -57,7 +60,7 @@ namespace BulgarianPhotoSpots.Controllers
         {
             if (!ModelState.IsValid)
             {
-                var categories = await _photoSpotService.GetAllCategoriesAsync();
+                var categories = await _categoryService.GetAllAsync();
 
                 ViewData["CategoryId"] = new SelectList(
                     categories,
@@ -83,7 +86,7 @@ namespace BulgarianPhotoSpots.Controllers
             if (photoSpot == null)
                 return NotFound();
 
-            var categories = await _photoSpotService.GetAllCategoriesAsync();
+            var categories = await _categoryService.GetAllAsync();
 
             ViewData["CategoryId"] = new SelectList(
                 categories,
@@ -104,7 +107,7 @@ namespace BulgarianPhotoSpots.Controllers
 
             if (!ModelState.IsValid)
             {
-                var categories = await _photoSpotService.GetAllCategoriesAsync();
+                var categories = await _categoryService.GetAllAsync();
 
                 ViewData["CategoryId"] = new SelectList(
                     categories,
