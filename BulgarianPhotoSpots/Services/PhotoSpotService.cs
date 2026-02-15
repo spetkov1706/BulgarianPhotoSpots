@@ -27,6 +27,11 @@ namespace BulgarianPhotoSpots.Services
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
+        public async Task<List<Category>> GetAllCategoriesAsync()
+        {
+            return await _context.Categories.ToListAsync();
+        }
+
         public async Task CreateAsync(PhotoSpot model)
         {
             await _context.PhotoSpots.AddAsync(model);

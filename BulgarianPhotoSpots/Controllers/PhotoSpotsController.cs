@@ -11,7 +11,6 @@ namespace BulgarianPhotoSpots.Controllers
     public class PhotoSpotsController : Controller
     {
         private readonly IPhotoSpotService _photoSpotService;
-
         public PhotoSpotsController(IPhotoSpotService photoSpotService)
         {
             _photoSpotService = photoSpotService;
