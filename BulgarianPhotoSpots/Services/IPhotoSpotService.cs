@@ -4,9 +4,7 @@ namespace BulgarianPhotoSpots.Services
 {
     public interface IPhotoSpotService
     {
-        Task<IEnumerable<PhotoSpot>> GetAllAsync();
-        Task<IEnumerable<Category>> GetAllCategoriesAsync();
-
+        Task<List<PhotoSpot>> GetAllAsync();
         Task<PhotoSpot?> GetByIdAsync(int id);
         Task CreateAsync(PhotoSpot model);
         Task UpdateAsync(PhotoSpot model);

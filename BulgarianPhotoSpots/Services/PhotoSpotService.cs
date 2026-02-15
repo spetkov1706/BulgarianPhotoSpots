@@ -12,12 +12,8 @@ namespace BulgarianPhotoSpots.Services
         {
             _context = context;
         }
-        public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
-        {
-            return await _context.Categories.ToListAsync();
-        }
 
-        public async Task<IEnumerable<PhotoSpot>> GetAllAsync()
+        public async Task<List<PhotoSpot>> GetAllAsync()
         {
             return await _context.PhotoSpots
                 .Include(p => p.Category)
@@ -33,7 +29,7 @@ namespace BulgarianPhotoSpots.Services
 
         public async Task CreateAsync(PhotoSpot model)
         {
-            _context.PhotoSpots.Add(model);
+            await _context.PhotoSpots.AddAsync(model);
             await _context.SaveChangesAsync();
         }
 
@@ -45,11 +41,11 @@ namespace BulgarianPhotoSpots.Services
 
         public async Task DeleteAsync(int id)
         {
-            var spot = await _context.PhotoSpots.FindAsync(id);
+            var entity = await _context.PhotoSpots.FindAsync(id);
 
-            if (spot != null)
+            if (entity != null)
             {
-                _context.PhotoSpots.Remove(spot);
+                _context.PhotoSpots.Remove(entity);
                 await _context.SaveChangesAsync();
             }
         }
