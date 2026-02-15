@@ -51,39 +51,48 @@ namespace BulgarianPhotoSpots.Controllers
         {
             var categories = await _categoryService.GetAllAsync();
 
-            ViewData["CategoryId"] = new SelectList(
-                categories,
-                "Id",
-                "Name"
-            );
+            var viewModel = new PhotoSpotFormViewModel
+            {
+                Categories = categories.Select(c => new SelectListItem
+                {
+                    Value = c.Id.ToString(),
+                    Text = c.Name
+                })
+            };
 
-            return View();
+            return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(PhotoSpot model)
+        public async Task<IActionResult> Create(PhotoSpotFormViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 var categories = await _categoryService.GetAllAsync();
-
-                ViewData["CategoryId"] = new SelectList(
-                    categories,
-                    "Id",
-                    "Name",
-                    model.CategoryId
-                );
+                model.Categories = categories.Select(c => new SelectListItem
+                {
+                    Value = c.Id.ToString(),
+                    Text = c.Name
+                });
 
                 return View(model);
             }
 
-            await _photoSpotService.CreateAsync(model);
+            var photoSpot = new PhotoSpot
+            {
+                Title = model.Title,
+                Description = model.Description,
+                Location = model.Location,
+                Rating = model.Rating,
+                CategoryId = model.CategoryId
+            };
 
-            TempData["SuccessMessage"] = "Photo spot created successfully!";
+            await _photoSpotService.CreateAsync(photoSpot);
 
             return RedirectToAction(nameof(Index));
         }
+
 
         public async Task<IActionResult> Edit(int id)
         {
