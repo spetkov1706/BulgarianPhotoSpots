@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using BulgarianPhotoSpots.ViewModels;
 
 namespace BulgarianPhotoSpots.Controllers
 {
@@ -23,11 +24,16 @@ namespace BulgarianPhotoSpots.Controllers
         {
             var photoSpots = await _photoSpotService.GetAllAsync();
 
-            ViewData["PageTitle"] = "All Bulgarian Photo Spots";
-            ViewBag.Count = photoSpots.Count();
+            var viewModel = new PhotoSpotListViewModel
+            {
+                PhotoSpots = photoSpots,
+                PageTitle = "All Bulgarian Photo Spots",
+                TotalCount = photoSpots.Count()
+            };
 
-            return View(photoSpots);
+            return View(viewModel);
         }
+
 
         public async Task<IActionResult> Details(int id, string? tab)
         {
