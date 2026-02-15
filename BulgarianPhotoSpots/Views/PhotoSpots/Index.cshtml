@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BulgarianPhotoSpots.Models.PhotoSpot>
+﻿@model BulgarianPhotoSpots.ViewModels.PhotoSpotListViewModel
 
 @{
     ViewData["Title"] = "Photo Spots";
@@ -13,8 +13,8 @@
 
 <h1>Photo Spots in Bulgaria</h1>
 
-<h4>@ViewData["PageTitle"]</h4>
-<p>Total Spots: @ViewBag.Count</p>
+<h4>@Model.PageTitle</h4>
+<p>Total Spots: @Model.TotalCount</p>
 
 <a asp-action="Create" class="btn btn-primary mb-3">Add New Photo Spot</a>
 
@@ -29,7 +29,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var spot in Model)
+        @foreach (var spot in Model.PhotoSpots)
         {
             <tr>
                 <td>@spot.Title</td>
