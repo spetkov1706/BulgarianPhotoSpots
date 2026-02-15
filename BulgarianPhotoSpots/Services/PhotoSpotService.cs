@@ -12,6 +12,10 @@ namespace BulgarianPhotoSpots.Services
         {
             _context = context;
         }
+        public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
+        {
+            return await _context.Categories.ToListAsync();
+        }
 
         public async Task<IEnumerable<PhotoSpot>> GetAllAsync()
         {
