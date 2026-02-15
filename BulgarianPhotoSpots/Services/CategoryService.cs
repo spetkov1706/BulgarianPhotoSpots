@@ -41,11 +41,11 @@ namespace BulgarianPhotoSpots.Services
 
         public async Task DeleteAsync(int id)
         {
-            var category = await _context.Categories.FindAsync(id);
+            var entity = await _context.Categories.FindAsync(id);
 
-            if (category != null)
+            if (entity != null)
             {
-                _context.Categories.Remove(category);
+                _context.Categories.Remove(entity);
                 await _context.SaveChangesAsync();
             }
         }
