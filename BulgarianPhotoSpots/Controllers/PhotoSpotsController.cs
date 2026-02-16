@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using BulgarianPhotoSpots.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BulgarianPhotoSpots.Controllers
 {
@@ -47,6 +48,7 @@ namespace BulgarianPhotoSpots.Controllers
             return View(photoSpot);
         }
 
+        [Authorize]
         public async Task<IActionResult> Create()
         {
             var categories = await _categoryService.GetAllAsync();
@@ -63,6 +65,7 @@ namespace BulgarianPhotoSpots.Controllers
             return View(viewModel);
         }
 
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PhotoSpotFormViewModel model)
@@ -93,7 +96,7 @@ namespace BulgarianPhotoSpots.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
+        [Authorize]
         public async Task<IActionResult> Edit(int id)
         {
             var photoSpot = await _photoSpotService.GetByIdAsync(id);
@@ -113,6 +116,7 @@ namespace BulgarianPhotoSpots.Controllers
             return View(photoSpot);
         }
 
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, PhotoSpot model)
@@ -139,6 +143,7 @@ namespace BulgarianPhotoSpots.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             var photoSpot = await _photoSpotService.GetByIdAsync(id);
@@ -149,6 +154,7 @@ namespace BulgarianPhotoSpots.Controllers
             return View(photoSpot);
         }
 
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

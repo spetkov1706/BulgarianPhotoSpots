@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BulgarianPhotoSpots.Data;
 using BulgarianPhotoSpots.Models;
 using BulgarianPhotoSpots.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BulgarianPhotoSpots.Controllers
 {
@@ -39,12 +40,14 @@ namespace BulgarianPhotoSpots.Controllers
         }
 
         // GET: Categories/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
         }
 
         // POST: Categories/Create
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name")] Category category)
@@ -57,6 +60,7 @@ namespace BulgarianPhotoSpots.Controllers
         }
 
         // GET: Categories/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int id)
         {
             var category = await _categoryService.GetByIdAsync(id);
@@ -68,6 +72,7 @@ namespace BulgarianPhotoSpots.Controllers
         }
 
         // POST: Categories/Edit/5
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Category category)
@@ -83,6 +88,7 @@ namespace BulgarianPhotoSpots.Controllers
         }
 
         // GET: Categories/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             var category = await _categoryService.GetByIdAsync(id);
@@ -94,6 +100,7 @@ namespace BulgarianPhotoSpots.Controllers
         }
 
         // POST: Categories/Delete/5
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
