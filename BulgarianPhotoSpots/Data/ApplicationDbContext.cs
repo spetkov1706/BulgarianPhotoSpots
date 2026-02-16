@@ -1,9 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-using BulgarianPhotoSpots.Models;
+﻿using BulgarianPhotoSpots.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.General;
 
 namespace BulgarianPhotoSpots.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
