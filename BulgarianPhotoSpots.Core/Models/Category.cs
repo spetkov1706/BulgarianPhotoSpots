@@ -8,7 +8,7 @@ namespace BulgarianPhotoSpots.Models
 
         [Required]
         [StringLength(50, MinimumLength = 3)]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
         public ICollection<PhotoSpot> PhotoSpots { get; set; } 
             = new List<PhotoSpot>();

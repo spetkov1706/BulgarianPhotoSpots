@@ -44,7 +44,9 @@ namespace BulgarianPhotoSpots.Controllers
         [Authorize]
         public IActionResult Create()
         {
-            return View();
+            var model = new Category();
+
+            return View(model);
         }
 
         // POST: Categories/Create
