@@ -2,9 +2,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.General;
 
-namespace BulgarianPhotoSpots.Data
+namespace BulgarianPhotoSpots.Infrastructure.Data
 {
     public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 

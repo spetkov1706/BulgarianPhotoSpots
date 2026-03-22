@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using BulgarianPhotoSpots.Data;
 using BulgarianPhotoSpots.Models;
-using BulgarianPhotoSpots.Services;
 using Microsoft.AspNetCore.Authorization;
+using BulgarianPhotoSpots.Core.Interfaces;
+using BulgarianPhotoSpots.Infrastructure.Services;
+using BulgarianPhotoSpots.Infrastructure.Data;
 
 namespace BulgarianPhotoSpots.Controllers
 {

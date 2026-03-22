@@ -1,3 +1,5 @@
 <Solution>
+  <Project Path="BulgarianPhotoSpots.Core/BulgarianPhotoSpots.Core.csproj" Id="10d5d22b-b6d6-4539-9b49-613c6454cfa6" />
+  <Project Path="BulgarianPhotoSpots.Infrastructure/BulgarianPhotoSpots.Infrastructure.csproj" Id="0389d664-c086-4618-8f93-e034000a8327" />
   <Project Path="BulgarianPhotoSpots/BulgarianPhotoSpots.csproj" />
 </Solution>

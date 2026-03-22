@@ -1,12 +1,13 @@
-﻿using BulgarianPhotoSpots.Data;
-using BulgarianPhotoSpots.Models;
-using BulgarianPhotoSpots.Services;
+﻿using BulgarianPhotoSpots.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using BulgarianPhotoSpots.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using BulgarianPhotoSpots.Core.Interfaces;
+using BulgarianPhotoSpots.Infrastructure.Services;
+using BulgarianPhotoSpots.Infrastructure.Data;
 
 namespace BulgarianPhotoSpots.Controllers
 {

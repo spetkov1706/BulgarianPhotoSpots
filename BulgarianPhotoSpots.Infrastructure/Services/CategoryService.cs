@@ -1,8 +1,9 @@
-﻿using BulgarianPhotoSpots.Data;
+﻿using BulgarianPhotoSpots.Infrastructure.Data;
 using BulgarianPhotoSpots.Models;
 using Microsoft.EntityFrameworkCore;
+using BulgarianPhotoSpots.Core.Interfaces;
 
-namespace BulgarianPhotoSpots.Services
+namespace BulgarianPhotoSpots.Infrastructure.Services
 {
     public class CategoryService : ICategoryService
     {

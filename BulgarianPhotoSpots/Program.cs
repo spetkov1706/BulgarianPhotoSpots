@@ -1,7 +1,8 @@
-using BulgarianPhotoSpots.Data;
-using BulgarianPhotoSpots.Services;
-using Microsoft.EntityFrameworkCore;
+using BulgarianPhotoSpots.Infrastructure.Data;
+using BulgarianPhotoSpots.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using BulgarianPhotoSpots.Core.Interfaces;
 
 namespace BulgarianPhotoSpots
 {
@@ -13,8 +14,8 @@ namespace BulgarianPhotoSpots
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddScoped<IPhotoSpotService, PhotoSpotService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<IPhotoSpotService, PhotoSpotService>();
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

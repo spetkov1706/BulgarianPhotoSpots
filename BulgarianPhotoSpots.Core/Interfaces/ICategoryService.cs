@@ -1,6 +1,6 @@
 ﻿using BulgarianPhotoSpots.Models;
 
-namespace BulgarianPhotoSpots.Services
+namespace BulgarianPhotoSpots.Core.Interfaces
 {
     public interface ICategoryService
     {
