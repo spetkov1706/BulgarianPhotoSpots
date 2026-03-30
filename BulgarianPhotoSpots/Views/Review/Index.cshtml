@@ -7,8 +7,11 @@
 @foreach (var review in Model)
 {
     <div>
-        <p>@review.Comment</p>
-        <p>Rating: @review.Rating</p>
+        <p><strong>Author:</strong> @review.AuthorName</p>
+        <p><strong>Comment:</strong> @review.Comment</p>
+        <p><strong>Rating:</strong> @review.Rating</p>
+        <p><strong>PhotoSpotId:</strong> @review.PhotoSpotId</p>
+        <hr />
 
         <a href="/Review/Delete/@review.Id">Delete</a>
 
