@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using BulgarianPhotoSpots.Infrastructure.Data;
+﻿using BulgarianPhotoSpots.Infrastructure.Data;
+using BulgarianPhotoSpots.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BulgarianPhotoSpots.Controllers
 {
@@ -22,6 +23,23 @@ namespace BulgarianPhotoSpots.Controllers
         public IActionResult Create()
         {
             return View();
+        }
+
+        // POST: Review/Create
+        [HttpPost]
+        public IActionResult Create(Review model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            model.CreatedOn = DateTime.Now;
+
+            _context.Reviews.Add(model);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
         }
     }
 }
