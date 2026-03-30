@@ -41,6 +41,7 @@ namespace BulgarianPhotoSpots.Controllers
             _context.SaveChanges();
 
             return RedirectToAction("Index");
+
         }
         // GET: Review/Delete/5
         public IActionResult Delete(int id)

@@ -1,8 +1,11 @@
 ﻿@model BulgarianPhotoSpots.Models.Review
 
 <form asp-action="Create" method="post">
+    
     @Html.AntiForgeryToken()
 
+    <div asp-validation-summary="All" style="color:red"></div>
+    
     <div>
         <label>Author Name</label>
         <input asp-for="AuthorName" />

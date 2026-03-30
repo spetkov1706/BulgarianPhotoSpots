@@ -19,7 +19,7 @@ namespace BulgarianPhotoSpots.Models
 
         public int PhotoSpotId { get; set; }
 
-        public PhotoSpot PhotoSpot { get; set; } = null!;
+        public PhotoSpot? PhotoSpot { get; set; }
 
         public DateTime CreatedOn { get; set; }
 
