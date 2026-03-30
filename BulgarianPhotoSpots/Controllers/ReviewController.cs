@@ -27,6 +27,7 @@ namespace BulgarianPhotoSpots.Controllers
 
         // POST: Review/Create
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(Review model)
         {
             if (!ModelState.IsValid)
