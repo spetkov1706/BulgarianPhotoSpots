@@ -1,4 +1,12 @@
-﻿@{
-    <h1>Reviews</h1>
-    <p>Тук ще се показват ревютата</p>
+﻿@model List<BulgarianPhotoSpots.Models.Review>
+
+<h1>Reviews</h1>
+
+@foreach (var review in Model)
+{
+    <div>
+        <p>@review.Comment</p>
+        <p>Rating: @review.Rating</p>
+        <hr />
+    </div>
 }

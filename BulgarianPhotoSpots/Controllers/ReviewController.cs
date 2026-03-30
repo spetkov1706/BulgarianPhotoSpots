@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using BulgarianPhotoSpots.Infrastructure.Data;
 
 namespace BulgarianPhotoSpots.Controllers
 {
@@ -6,7 +7,15 @@ namespace BulgarianPhotoSpots.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            var reviews = _context.Reviews.ToList();
+            return View(reviews);
+        }
+
+        private readonly ApplicationDbContext _context;
+
+        public ReviewController(ApplicationDbContext context)
+        {
+            _context = context;
         }
     }
 }
