@@ -17,5 +17,11 @@ namespace BulgarianPhotoSpots.Controllers
         {
             _context = context;
         }
+
+        // GET: Review/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
     }
 }
