@@ -1,5 +1,4 @@
-﻿using BulgarianPhotoSpots.Models;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
 namespace BulgarianPhotoSpots.ViewModels
