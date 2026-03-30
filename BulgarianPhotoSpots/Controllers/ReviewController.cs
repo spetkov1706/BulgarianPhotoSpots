@@ -53,5 +53,21 @@ namespace BulgarianPhotoSpots.Controllers
 
             return View(review);
         }
+        // POST: Review/Delete/5
+        [HttpPost]
+        public IActionResult Delete(Review model)
+        {
+            var review = _context.Reviews.FirstOrDefault(r => r.Id == model.Id);
+
+            if (review == null)
+            {
+                return NotFound();
+            }
+
+            _context.Reviews.Remove(review);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
     }
 }
