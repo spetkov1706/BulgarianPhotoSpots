@@ -24,19 +24,17 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="PhotoSpots" asp-action="Index"> Photo Spots </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Categories" asp-action="Index">Categories</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Review" asp-action="Index">Reviews</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark"
-                               asp-controller="PhotoSpots"
-                               asp-action="Index">
-                                Photo Spots
-                            </a>
-                        </li>
-
                     </ul>
                     <ul class="navbar-nav">
                         <partial name="_LoginPartial" />
