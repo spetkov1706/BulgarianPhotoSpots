@@ -1,1 +1,27 @@
-﻿<h2>Add Review</h2>
+﻿@model BulgarianPhotoSpots.Models.Review
+
+<h2>Add Review</h2>
+
+<form asp-action="Create" method="post">
+    <div>
+        <label>Author Name</label>
+        <input asp-for="AuthorName" />
+    </div>
+
+    <div>
+        <label>Comment</label>
+        <textarea asp-for="Comment"></textarea>
+    </div>
+
+    <div>
+        <label>Rating</label>
+        <input asp-for="Rating" type="number" />
+    </div>
+
+    <div>
+        <label>PhotoSpot Id</label>
+        <input asp-for="PhotoSpotId" type="number" />
+    </div>
+
+    <button type="submit">Add</button>
+</form>
