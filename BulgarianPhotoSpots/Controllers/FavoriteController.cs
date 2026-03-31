@@ -16,6 +16,7 @@ namespace BulgarianPhotoSpots.Controllers
             _context = context;
         }
 
+        [HttpPost]
         public IActionResult Add(int photoSpotId)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);

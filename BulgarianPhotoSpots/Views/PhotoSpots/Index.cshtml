@@ -46,7 +46,10 @@
                     <a asp-action="Delete" asp-route-id="@spot.Id"
                        class="btn btn-danger btn-sm">Delete</a>
 
-                    <a asp-controller="Favorite" asp-action="Add" asp-route-photoSpotId="@spot.Id"> ❤️ Add to Favorites </a>
+                    <form asp-controller="Favorite" asp-action="Add" method="post" style="display:inline;">
+                        <input type="hidden" name="photoSpotId" value="@spot.Id" />
+                        <button type="submit" class="btn btn-outline-danger btn-sm">❤️</button>
+                    </form>
 
                 </td>
 
