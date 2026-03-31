@@ -1,0 +1,10 @@
+﻿@model List<BulgarianPhotoSpots.Core.Models.Favorite>
+
+<h2>My Favorites</h2>
+
+@foreach (var fav in Model)
+{
+    <p>PhotoSpotId: @fav.PhotoSpotId</p>
+
+    <a asp-action="Remove" asp-route-id="@fav.Id">Remove</a>
+}
