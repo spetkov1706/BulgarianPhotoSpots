@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BulgarianPhotoSpots.Core.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace BulgarianPhotoSpots.Models
 {
@@ -28,5 +29,6 @@ namespace BulgarianPhotoSpots.Models
         public Category? Category { get; set; }
 
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
+        public ICollection<Favorite> Favorites { get; set; } = new List<Favorite>();
     }
 }
