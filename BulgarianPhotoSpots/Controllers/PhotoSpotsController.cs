@@ -1,9 +1,11 @@
-﻿using BulgarianPhotoSpots.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using BulgarianPhotoSpots.Core.Interfaces;
+using BulgarianPhotoSpots.Infrastructure.Data;
+using BulgarianPhotoSpots.Models;
 using BulgarianPhotoSpots.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-using BulgarianPhotoSpots.Core.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Claims;
 
 namespace BulgarianPhotoSpots.Controllers
 {
@@ -11,11 +13,13 @@ namespace BulgarianPhotoSpots.Controllers
     {
         private readonly IPhotoSpotService _photoSpotService;
         private readonly ICategoryService _categoryService;
+        private readonly ApplicationDbContext _context;
 
-        public PhotoSpotsController(IPhotoSpotService photoSpotService, ICategoryService categoryService)
+        public PhotoSpotsController(IPhotoSpotService photoSpotService, ICategoryService categoryService, ApplicationDbContext context)
         {
             _photoSpotService = photoSpotService;
             _categoryService = categoryService;
+            _context = context;
         }
 
         public async Task<IActionResult> Index()
@@ -28,6 +32,15 @@ namespace BulgarianPhotoSpots.Controllers
                 PageTitle = "All Bulgarian Photo Spots",
                 TotalCount = photoSpots.Count()
             };
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var favoriteIds = _context.Favorites
+                .Where(f => f.UserId == userId)
+                .Select(f => f.PhotoSpotId)
+                .ToList();
+
+            ViewBag.FavoriteIds = favoriteIds;
 
             return View(viewModel);
         }

@@ -58,5 +58,31 @@ namespace BulgarianPhotoSpots.Controllers
 
             return View(favorites);
         }
+        public IActionResult Toggle(int photoSpotId)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var favorite = _context.Favorites
+                .FirstOrDefault(f => f.PhotoSpotId == photoSpotId && f.UserId == userId);
+
+            if (favorite == null)
+            {
+                var newFavorite = new Favorite
+                {
+                    UserId = userId,
+                    PhotoSpotId = photoSpotId
+                };
+
+                _context.Favorites.Add(newFavorite);
+            }
+            else
+            {
+                _context.Favorites.Remove(favorite);
+            }
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "PhotoSpots");
+        }
     }
 }

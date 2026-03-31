@@ -11,6 +11,10 @@
     </div>
 }
 
+@{
+    var favoriteIds = ViewBag.FavoriteIds as List<int>;
+}
+
 <h1>Photo Spots in Bulgaria</h1>
 
 <h4>@Model.PageTitle</h4>
@@ -46,10 +50,13 @@
                     <a asp-action="Delete" asp-route-id="@spot.Id"
                        class="btn btn-danger btn-sm">Delete</a>
 
-                    <form asp-controller="Favorite" asp-action="Add" method="post" style="display:inline;">
-                        <input type="hidden" name="photoSpotId" value="@spot.Id" />
-                        <button type="submit" class="btn btn-outline-danger btn-sm">❤️</button>
-                    </form>
+                    <a asp-controller="Favorite"
+                           asp-action="Toggle"
+                           asp-route-photoSpotId="@spot.Id">
+
+                        @(favoriteIds != null && favoriteIds.Contains(spot.Id) ? "❤️" : "🤍")
+
+                    </a>
 
                 </td>
 
