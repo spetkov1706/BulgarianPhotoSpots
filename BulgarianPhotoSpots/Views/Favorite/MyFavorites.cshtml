@@ -4,7 +4,12 @@
 
 @foreach (var fav in Model)
 {
-    <p>PhotoSpotId: @fav.PhotoSpotId</p>
+    <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+        <h4>@fav.PhotoSpot.Title</h4>
+        <p>@fav.PhotoSpot.Description</p>
+        <p><b>📍</b> @fav.PhotoSpot.Location</p>
+        <p><b>⭐</b> @fav.PhotoSpot.Rating</p>
+    </div>
 
     <a asp-action="Remove" asp-route-id="@fav.Id">Remove</a>
 }

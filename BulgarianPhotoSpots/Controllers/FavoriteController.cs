@@ -2,6 +2,7 @@
 using BulgarianPhotoSpots.Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace BulgarianPhotoSpots.Controllers
@@ -51,6 +52,7 @@ namespace BulgarianPhotoSpots.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var favorites = _context.Favorites
+                .Include(f => f.PhotoSpot)
                 .Where(f => f.UserId == userId)
                 .ToList();
 
