@@ -17,5 +17,6 @@ namespace BulgarianPhotoSpots.Infrastructure.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
+        public DbSet<UserProfile> UserProfiles { get; set; }
     }
 }
