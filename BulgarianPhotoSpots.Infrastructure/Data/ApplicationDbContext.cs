@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 namespace BulgarianPhotoSpots.Infrastructure.Data
 {
     public class ApplicationDbContext : IdentityDbContext<IdentityUser>
-
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
