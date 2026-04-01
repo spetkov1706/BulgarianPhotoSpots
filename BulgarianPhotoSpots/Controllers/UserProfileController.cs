@@ -21,6 +21,8 @@ namespace BulgarianPhotoSpots.Controllers
             var profile = _context.UserProfiles
                 .FirstOrDefault(p => p.UserId == userId);
 
+            ViewBag.Username = User.Identity.Name;
+
             return View(profile);
         }
 
