@@ -44,5 +44,42 @@ namespace BulgarianPhotoSpots.Controllers
 
             return RedirectToAction("MyProfile");
         }
+
+        // GET: UserProfile/Edit
+        public IActionResult Edit()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var profile = _context.UserProfiles
+                .FirstOrDefault(p => p.UserId == userId);
+
+            if (profile == null)
+            {
+                return RedirectToAction("Create");
+            }
+
+            return View(profile);
+        }
+        // POST: UserProfile/Edit
+        [HttpPost]
+        public IActionResult Edit(UserProfile model)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var profile = _context.UserProfiles
+                .FirstOrDefault(p => p.UserId == userId);
+
+            if (profile == null)
+            {
+                return RedirectToAction("Create");
+            }
+
+            profile.Bio = model.Bio;
+            profile.ProfilePictureUrl = model.ProfilePictureUrl;
+
+            _context.SaveChanges();
+
+            return RedirectToAction("MyProfile");
+        }
     }
 }
