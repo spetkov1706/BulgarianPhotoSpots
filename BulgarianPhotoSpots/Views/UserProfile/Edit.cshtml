@@ -1,0 +1,21 @@
+﻿@model BulgarianPhotoSpots.Core.Models.UserProfile
+
+<h2>Edit Profile</h2>
+
+<form asp-action="Edit" method="post">
+
+    <div>
+        <label>Bio</label>
+        <input asp-for="Bio" />
+    </div>
+
+    <div>
+        <label>Profile Picture URL</label>
+        <input asp-for="ProfilePictureUrl" />
+    </div>
+
+    <br />
+
+    <button type="submit">Save</button>
+
+</form>
