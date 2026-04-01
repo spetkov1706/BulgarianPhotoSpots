@@ -1,0 +1,17 @@
+﻿@model BulgarianPhotoSpots.Core.Models.UserProfile
+
+<h2>My Profile</h2>
+
+@if (Model == null)
+{
+    <p>You don’t have a profile yet.</p>
+    <a asp-action="Create">Create Profile</a>
+}
+else
+{
+    <div style="border:1px solid #ccc; padding:15px; border-radius:10px;">
+        <img src="@Model.ProfilePictureUrl" width="150" />
+        <p><strong>Bio:</strong> @Model.Bio</p>
+        <p><strong>Created:</strong> @Model.CreatedOn</p>
+    </div>
+}
