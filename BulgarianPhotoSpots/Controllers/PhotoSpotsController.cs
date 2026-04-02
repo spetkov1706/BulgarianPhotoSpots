@@ -22,9 +22,18 @@ namespace BulgarianPhotoSpots.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchTerm)
         {
             var photoSpots = await _photoSpotService.GetAllAsync();
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                photoSpots = photoSpots
+                    .Where(p => p.Title.Contains(searchTerm) ||
+                                p.Description.Contains(searchTerm) ||
+                                p.Location.Contains(searchTerm))
+                    .ToList();
+            }
 
             var viewModel = new PhotoSpotListViewModel
             {
@@ -44,7 +53,6 @@ namespace BulgarianPhotoSpots.Controllers
 
             return View(viewModel);
         }
-
 
         public async Task<IActionResult> Details(int id, string? tab)
         {
