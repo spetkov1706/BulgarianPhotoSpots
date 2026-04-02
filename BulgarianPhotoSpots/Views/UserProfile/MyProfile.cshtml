@@ -2,20 +2,66 @@
 
 <h2>My Profile</h2>
 
-<h4>👤 @ViewBag.Username</h4>
+<h4>@ViewBag.Username</h4>
 
 @if (Model == null)
 {
-    <p>You don’t have a profile yet.</p>
+    <p>You don't have a profile yet.</p>
     <a asp-action="Create">Create Profile</a>
 }
 else
 {
-    <div style="border:1px solid #ccc; padding:15px; border-radius:10px;">
+    <div style="border:1px solid #ccc; padding:15px; border-radius:10px; margin-bottom:15px;">
         <img src="@Model.ProfilePictureUrl" width="150" />
+
         <p><strong>Bio:</strong> @Model.Bio</p>
+
         <p><strong>Created:</strong> @Model.CreatedOn</p>
     </div>
 
     <a asp-action="Edit" class="btn btn-warning">Edit Profile</a>
+}
+
+<hr />
+
+<h3>❤️ My Favorite Spots</h3>
+
+@{
+    var favorites = ViewBag.Favorites as List<BulgarianPhotoSpots.Core.Models.Favorite>;
+}
+
+@if (favorites == null || favorites.Count == 0)
+{
+    <p>No favorites yet.</p>
+}
+else
+{
+    foreach (var fav in favorites)
+    {
+        <div style="border:1px solid #ddd; padding:12px; margin-bottom:12px; border-radius:8px;">
+
+            <h4>@fav.PhotoSpot.Title</h4>
+
+            <p>@fav.PhotoSpot.Description</p>
+
+            <p>📍 @fav.PhotoSpot.Location</p>
+
+            <p>⭐ @fav.PhotoSpot.Rating</p>
+
+            <a asp-controller="PhotoSpots"
+                   asp-action="Details"
+                   asp-route-id="@fav.PhotoSpot.Id"
+                   style="margin-right:10px;">
+                🔍 View Details
+            </a>
+
+            <a asp-controller="Favorite"
+                   asp-action="Remove"
+                   asp-route-id="@fav.Id"
+                   style="color:red; font-weight:bold;">
+                💔 Remove
+            </a>
+
+        </div>
+    }
 }

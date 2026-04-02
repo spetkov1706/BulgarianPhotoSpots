@@ -1,6 +1,7 @@
 ﻿using BulgarianPhotoSpots.Core.Models;
 using BulgarianPhotoSpots.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace BulgarianPhotoSpots.Controllers
@@ -19,8 +20,14 @@ namespace BulgarianPhotoSpots.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var profile = _context.UserProfiles
-                .FirstOrDefault(p => p.UserId == userId);
+                .FirstOrDefault(u => u.UserId == userId);
 
+            var favorites = _context.Favorites
+                .Include(f => f.PhotoSpot)
+                .Where(f => f.UserId == userId)
+                .ToList();
+
+            ViewBag.Favorites = favorites;
             ViewBag.Username = User.Identity.Name;
 
             return View(profile);
