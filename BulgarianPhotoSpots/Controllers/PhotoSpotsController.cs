@@ -22,7 +22,7 @@ namespace BulgarianPhotoSpots.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index(string searchTerm)
+        public async Task<IActionResult> Index(string searchTerm, string location)
         {
             var photoSpots = await _photoSpotService.GetAllAsync();
 
@@ -30,8 +30,14 @@ namespace BulgarianPhotoSpots.Controllers
             {
                 photoSpots = photoSpots
                     .Where(p => p.Title.Contains(searchTerm) ||
-                                p.Description.Contains(searchTerm) ||
-                                p.Location.Contains(searchTerm))
+                                p.Description.Contains(searchTerm))
+                    .ToList();
+            }
+
+            if (!string.IsNullOrEmpty(location))
+            {
+                photoSpots = photoSpots
+                    .Where(p => p.Location.Contains(location))
                     .ToList();
             }
 
