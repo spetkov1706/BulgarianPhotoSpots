@@ -55,6 +55,9 @@ namespace BulgarianPhotoSpots
                 pattern: "{controller=Home}/{action=Index}/{id?}")
                 .WithStaticAssets();
 
+            app.UseExceptionHandler("/Home/Error");
+            app.UseStatusCodePagesWithReExecute("/Home/Error");
+
             app.Run();
         }
     }
