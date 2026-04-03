@@ -1,4 +1,5 @@
-﻿@model BulgarianPhotoSpots.ViewModels.PhotoSpotListViewModel
+﻿@using System.Security.Claims
+@model BulgarianPhotoSpots.ViewModels.PhotoSpotListViewModel
 
 @{
     ViewData["Title"] = "Photo Spots";
@@ -81,21 +82,18 @@ else
                 <td>@spot.Location</td>
                 <td>@spot.Rating</td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@spot.Id"
-                       class="btn btn-info btn-sm">Details</a>
-                        
-                    <a asp-action="Edit" asp-route-id="@spot.Id"
-                       class="btn btn-warning btn-sm">Edit</a>
+                    <a asp-action="Details" asp-route-id="@spot.Id" class="btn btn-success btn-sm">Details</a>
 
-                    <a asp-action="Delete" asp-route-id="@spot.Id"
-                       class="btn btn-danger btn-sm">Delete</a>
+                    @if (User.Identity.IsAuthenticated && spot.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                    {
+                        <a asp-action="Edit" asp-route-id="@spot.Id" class="btn btn-warning btn-sm">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@spot.Id" class="btn btn-danger btn-sm">Delete</a>
+                    }
 
                     <a asp-controller="Favorite"
                            asp-action="Toggle"
                            asp-route-photoSpotId="@spot.Id">
-
                         @(favoriteIds != null && favoriteIds.Contains(spot.Id) ? "❤️" : "🤍")
-
                     </a>
                 </td>
             </tr>
