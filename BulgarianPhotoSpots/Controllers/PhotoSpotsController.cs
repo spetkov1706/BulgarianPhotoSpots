@@ -142,6 +142,13 @@ namespace BulgarianPhotoSpots.Controllers
                 photoSpot.CategoryId
             );
 
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (photoSpot.UserId != userId)
+            {
+                return Unauthorized();
+            }
+
             return View(photoSpot);
         }
 

@@ -48,7 +48,9 @@ else
         🔒 You must be logged in to add photo spots.
     </p>
 
-    <a asp-controller="Account" asp-action="Login" class="btn btn-outline-primary mb-3">
+    <a asp-area="Identity"
+           asp-page="/Account/Login"
+           class="btn btn-outline-primary mb-3">
         Login
     </a>
 }
