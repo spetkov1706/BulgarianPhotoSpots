@@ -146,7 +146,8 @@ namespace BulgarianPhotoSpots.Controllers
 
             if (photoSpot.UserId != userId)
             {
-                return Unauthorized();
+                TempData["ErrorMessage"] = "You cannot edit other users' photo spots!";
+                return RedirectToAction(nameof(Index)); 
             }
 
             return View(photoSpot);
@@ -155,26 +156,43 @@ namespace BulgarianPhotoSpots.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, PhotoSpot model)
+        public async Task<IActionResult> Edit(int id, PhotoSpotFormViewModel model)
         {
-            if (id != model.Id)
+            var photoSpot = await _photoSpotService.GetByIdAsync(id);
+
+            if (photoSpot == null)
+            {
                 return NotFound();
+            }
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (photoSpot.UserId != userId)
+            {
+                TempData["ErrorMessage"] = "You cannot edit other users' photo spots.";
+                return RedirectToAction(nameof(Index));
+            }
 
             if (!ModelState.IsValid)
             {
                 var categories = await _categoryService.GetAllAsync();
 
-                ViewData["CategoryId"] = new SelectList(
-                    categories,
-                    "Id",
-                    "Name",
-                    model.CategoryId
-                );
+                model.Categories = categories.Select(c => new SelectListItem
+                {
+                    Value = c.Id.ToString(),
+                    Text = c.Name
+                });
 
                 return View(model);
             }
 
-            await _photoSpotService.UpdateAsync(model);
+            photoSpot.Title = model.Title;
+            photoSpot.Description = model.Description;
+            photoSpot.Location = model.Location;
+            photoSpot.Rating = model.Rating;
+            photoSpot.CategoryId = model.CategoryId;
+
+            await _photoSpotService.UpdateAsync(photoSpot);
 
             return RedirectToAction(nameof(Index));
         }
