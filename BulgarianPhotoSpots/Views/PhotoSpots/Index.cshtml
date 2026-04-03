@@ -36,7 +36,22 @@
 
 </form>
 
-<a asp-action="Create" class="btn btn-primary mb-3">Add New Photo Spot</a>
+@if (User.Identity.IsAuthenticated)
+{
+    <a asp-action="Create" class="btn btn-primary mb-3">
+        Add New Photo Spot
+    </a>
+}
+else
+{
+    <p style="color:gray; margin-bottom:15px;">
+        🔒 You must be logged in to add photo spots.
+    </p>
+
+    <a asp-controller="Account" asp-action="Login" class="btn btn-outline-primary mb-3">
+        Login
+    </a>
+}
 
 <table class="table table-striped">
     <thead>
