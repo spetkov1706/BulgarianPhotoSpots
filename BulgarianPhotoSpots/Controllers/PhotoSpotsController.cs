@@ -97,6 +97,7 @@ namespace BulgarianPhotoSpots.Controllers
             if (!ModelState.IsValid)
             {
                 var categories = await _categoryService.GetAllAsync();
+
                 model.Categories = categories.Select(c => new SelectListItem
                 {
                     Value = c.Id.ToString(),
@@ -106,16 +107,21 @@ namespace BulgarianPhotoSpots.Controllers
                 return View(model);
             }
 
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             var photoSpot = new PhotoSpot
             {
                 Title = model.Title,
                 Description = model.Description,
                 Location = model.Location,
                 Rating = model.Rating,
-                CategoryId = model.CategoryId
+                CategoryId = model.CategoryId,
+                UserId = userId 
             };
 
             await _photoSpotService.CreateAsync(photoSpot);
+
+            TempData["SuccessMessage"] = "Photo spot created successfully!";
 
             return RedirectToAction(nameof(Index));
         }
