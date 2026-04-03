@@ -28,7 +28,7 @@ namespace BulgarianPhotoSpots.Models
 
         public Category? Category { get; set; }
 
-        public string UserId { get; set; } = null!; 
+        public string UserId { get; set; } = null!;
 
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
         public ICollection<Favorite> Favorites { get; set; } = new List<Favorite>();

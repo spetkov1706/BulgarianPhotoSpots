@@ -97,7 +97,6 @@ namespace BulgarianPhotoSpots.Controllers
             if (!ModelState.IsValid)
             {
                 var categories = await _categoryService.GetAllAsync();
-
                 model.Categories = categories.Select(c => new SelectListItem
                 {
                     Value = c.Id.ToString(),
@@ -116,7 +115,7 @@ namespace BulgarianPhotoSpots.Controllers
                 Location = model.Location,
                 Rating = model.Rating,
                 CategoryId = model.CategoryId,
-                UserId = userId 
+                UserId = userId! 
             };
 
             await _photoSpotService.CreateAsync(photoSpot);
