@@ -1,8 +1,10 @@
+using BulgarianPhotoSpots.Core.Interfaces;
 using BulgarianPhotoSpots.Infrastructure.Data;
 using BulgarianPhotoSpots.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using BulgarianPhotoSpots.Core.Interfaces;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 
 namespace BulgarianPhotoSpots
 {
@@ -43,6 +45,12 @@ namespace BulgarianPhotoSpots
 
             app.UseHttpsRedirection();
             app.UseRouting();
+
+            if (!app.Environment.IsDevelopment())
+            {
+                app.UseExceptionHandler("/Home/Error");
+                app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
+            }
 
             app.UseAuthentication();
             app.MapRazorPages();
