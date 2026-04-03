@@ -1,6 +1,8 @@
 ﻿using BulgarianPhotoSpots.Infrastructure.Data;
 using BulgarianPhotoSpots.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using BulgarianPhotoSpots.ViewModels;
 
 namespace BulgarianPhotoSpots.Controllers
 {
@@ -20,29 +22,38 @@ namespace BulgarianPhotoSpots.Controllers
         }
 
         // GET: Review/Create
-        public IActionResult Create()
+        public IActionResult Create(int photoSpotId)
         {
-            return View();
+            var model = new ReviewViewModel
+            {
+                PhotoSpotId = photoSpotId
+            };
+
+            return View(model);
         }
 
         // POST: Review/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Review model)
+        public async Task<IActionResult> Create(ReviewViewModel model)
         {
             if (!ModelState.IsValid)
-            {
                 return View(model);
-            }
 
-            model.CreatedOn = DateTime.Now;
+            var review = new Review
+            {
+                Comment = model.Comment,
+                Rating = model.Rating,
+                PhotoSpotId = model.PhotoSpotId,
+                AuthorName = User.Identity.Name
+            };
 
-            _context.Reviews.Add(model);
-            _context.SaveChanges();
+            _context.Reviews.Add(review);
+            await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index");
-
+            return RedirectToAction("Details", "PhotoSpots", new { id = model.PhotoSpotId });
         }
+
         // GET: Review/Delete/5
         public IActionResult Delete(int id)
         {

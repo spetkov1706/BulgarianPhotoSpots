@@ -1,15 +1,12 @@
-﻿@model BulgarianPhotoSpots.Models.Review
+﻿@model BulgarianPhotoSpots.ViewModels.ReviewViewModel
 
 <form asp-action="Create" method="post">
-    
+
     @Html.AntiForgeryToken()
 
+    <input type="hidden" asp-for="PhotoSpotId" />
+
     <div asp-validation-summary="All" style="color:red"></div>
-    
-    <div>
-        <label>Author Name</label>
-        <input asp-for="AuthorName" />
-    </div>
 
     <div>
         <label>Comment</label>
@@ -21,10 +18,6 @@
         <input asp-for="Rating" type="number" />
     </div>
 
-    <div>
-        <label>PhotoSpot Id</label>
-        <input asp-for="PhotoSpotId" type="number" />
-    </div>
-
     <button type="submit">Add</button>
+
 </form>

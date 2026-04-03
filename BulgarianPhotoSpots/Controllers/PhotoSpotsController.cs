@@ -5,6 +5,7 @@ using BulgarianPhotoSpots.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace BulgarianPhotoSpots.Controllers
@@ -62,7 +63,9 @@ namespace BulgarianPhotoSpots.Controllers
 
         public async Task<IActionResult> Details(int id, string? tab)
         {
-            var photoSpot = await _photoSpotService.GetByIdAsync(id);
+            var photoSpot = _context.PhotoSpots
+                .Include(p => p.Reviews)
+                .FirstOrDefault(p => p.Id == id);
 
             if (photoSpot == null)
                 return NotFound();

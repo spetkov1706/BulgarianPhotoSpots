@@ -16,4 +16,28 @@
     </div>
 </div>
 
+<a asp-controller="Review"
+       asp-action="Create"
+       asp-route-photoSpotId="@Model.Id"
+       class="btn btn-success mt-3">
+    Add Review
+</a>
+
+<h4 class="mt-4">Reviews</h4>
+
+@if (Model.Reviews != null && Model.Reviews.Any())
+{
+    foreach (var review in Model.Reviews)
+    {
+        <div class="border p-2 mb-2 rounded">
+            <p>@review.Comment</p>
+            <small>Rating: @review.Rating</small>
+        </div>
+    }
+}
+else
+{
+    <p>No reviews yet.</p>
+}
+
 <a asp-action="Index" class="btn btn-secondary mt-3">Back</a>
