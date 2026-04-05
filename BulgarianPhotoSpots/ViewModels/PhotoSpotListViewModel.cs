@@ -9,5 +9,11 @@ namespace BulgarianPhotoSpots.ViewModels
         public string PageTitle { get; set; } = string.Empty;
 
         public int TotalCount { get; set; }
+
+        public string? SearchTerm { get; set; }
+
+        public int? CategoryId { get; set; }
+
+        public IEnumerable<Category>? Categories { get; set; }
     }
 }

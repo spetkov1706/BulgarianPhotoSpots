@@ -23,7 +23,7 @@ namespace BulgarianPhotoSpots.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index(string searchTerm, string location)
+        public async Task<IActionResult> Index(string? searchTerm, string? location, int? categoryId)
         {
             var photoSpots = await _photoSpotService.GetAllAsync();
 
@@ -42,11 +42,22 @@ namespace BulgarianPhotoSpots.Controllers
                     .ToList();
             }
 
+            if (categoryId.HasValue)
+            {
+                photoSpots = photoSpots
+                    .Where(p => p.CategoryId == categoryId.Value)
+                    .ToList();
+            }
+
             var viewModel = new PhotoSpotListViewModel
             {
                 PhotoSpots = photoSpots,
                 PageTitle = "All Bulgarian Photo Spots",
-                TotalCount = photoSpots.Count()
+                TotalCount = photoSpots.Count(),
+
+                SearchTerm = searchTerm,
+                CategoryId = categoryId,
+                Categories = _context.Categories.ToList()
             };
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);

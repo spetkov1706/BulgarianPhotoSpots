@@ -30,17 +30,38 @@
 
 <form method="get" class="mb-3">
 
-    <input type="text" name="searchTerm"
-           placeholder="Search..."
-           value="@Context.Request.Query["searchTerm"]"
-           class="form-control mb-2" style="width:300px;" />
+    <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
 
-    <input type="text" name="location"
-           placeholder="Filter by location..."
-           value="@Context.Request.Query["location"]"
-           class="form-control mb-2" style="width:300px;" />
+        <input type="text"
+               name="searchTerm"
+               value="@Model.SearchTerm"
+               placeholder="Search..."
+               class="form-control"
+               style="width:200px;" />
 
-    <button type="submit" class="btn btn-primary">Search</button>
+        <select name="categoryId" class="form-control" style="width:150px;">
+            <option value="">All</option>
+            @foreach (var category in Model.Categories)
+            {
+                <option value="@category.Id"
+                        selected="@(category.Id == Model.CategoryId)">
+                    @category.Name
+                </option>
+            }
+        </select>
+
+        <button type="submit" class="btn btn-dark">Search</button>
+
+    </div>
+
+    <div style="margin-top:10px;">
+        <input type="text"
+               name="location"
+               value="@Context.Request.Query["location"]"
+               placeholder="Filter by location..."
+               class="form-control"
+               style="width:300px;" />
+    </div>
 
 </form>
 
