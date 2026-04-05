@@ -3,8 +3,6 @@ using BulgarianPhotoSpots.Infrastructure.Data;
 using BulgarianPhotoSpots.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 
 namespace BulgarianPhotoSpots
 {
@@ -14,7 +12,6 @@ namespace BulgarianPhotoSpots
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<IPhotoSpotService, PhotoSpotService>();
@@ -35,36 +32,40 @@ namespace BulgarianPhotoSpots
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            using (var scope = app.Services.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+                try
+                {
+                    context.Database.Migrate();
+                    DbSeeder.Seed(context);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
             app.UseHttpsRedirection();
             app.UseRouting();
 
-            if (!app.Environment.IsDevelopment())
-            {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
-            }
-
             app.UseAuthentication();
-            app.MapRazorPages();
-
             app.UseAuthorization();
+
+            app.MapRazorPages();
 
             app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}")
                 .WithStaticAssets();
-
-            app.UseExceptionHandler("/Home/Error");
-            app.UseStatusCodePagesWithReExecute("/Home/Error");
 
             app.Run();
         }
