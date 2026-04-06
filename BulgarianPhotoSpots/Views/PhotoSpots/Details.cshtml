@@ -33,48 +33,53 @@
     </a>
 </div>
 
-<div class="mb-2">
-    <strong>Sort by:</strong>
-
-    <a asp-action="Details"
-       asp-route-id="@Model.Id"
-       asp-route-sort=""
-       class="btn btn-sm btn-outline-primary">Newest</a>
-
-    <a asp-action="Details"
-       asp-route-id="@Model.Id"
-       asp-route-sort="rating_desc"
-       class="btn btn-sm btn-outline-warning">Highest Rating</a>
-
-    <a asp-action="Details"
-       asp-route-id="@Model.Id"
-       asp-route-sort="rating_asc"
-       class="btn btn-sm btn-outline-secondary">Lowest Rating</a>
-</div>
-
 <h4 class="mt-4">Reviews</h4>
+
+@{
+    var avgRating = Model.Reviews != null && Model.Reviews.Any()
+        ? Model.Reviews.Average(r => r.Rating)
+        : 0;
+}
 
 @if (Model.Reviews != null && Model.Reviews.Any())
 {
+    <p>
+        <strong>Average Rating:</strong>
+        @avgRating.ToString("0.0")
+
+        @for (int i = 1; i <= 5; i++)
+        {
+            if (i <= Math.Round(avgRating / 2))
+            {
+                <span style="color:gold;">★</span>
+            }
+            else
+            {
+                <span style="color:lightgray;">★</span>
+            }
+        }
+    </p>
+
     foreach (var review in Model.Reviews)
     {
         <div class="border p-2 mb-2 rounded">
+
             <p>
-                <strong>Average Rating:</strong>
-                @ViewBag.AverageRating.ToString("0.0")
+                <strong>Rating:</strong> @review.Rating
 
                 @for (int i = 1; i <= 5; i++)
                 {
-                    if (i <= Math.Round((double)ViewBag.AverageRating))
+                    if (i <= Math.Round(review.Rating / 2.0))
                     {
-                        <span>⭐</span>
+                        <span style="color:gold;">★</span>
                     }
                     else
                     {
-                        <span>☆</span>
+                        <span style="color:lightgray;">★</span>
                     }
                 }
             </p>
+
             <p>
                 @review.Comment
 
