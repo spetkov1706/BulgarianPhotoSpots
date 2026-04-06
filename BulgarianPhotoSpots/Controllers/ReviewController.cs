@@ -35,26 +35,28 @@ namespace BulgarianPhotoSpots.Controllers
         // POST: Review/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(ReviewViewModel model)
+        public IActionResult Create(ReviewViewModel model)
         {
             if (!ModelState.IsValid)
+            {
                 return View(model);
+            }
 
             var review = new Review
             {
                 Comment = model.Comment,
                 Rating = model.Rating,
                 PhotoSpotId = model.PhotoSpotId,
-                AuthorName = User.Identity.Name
+                AuthorName = User.Identity?.Name
             };
 
             _context.Reviews.Add(review);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
 
             return RedirectToAction("Details", "PhotoSpots", new { id = model.PhotoSpotId });
         }
 
-        // GET: Review/Delete/5
+        // GET: Review/Delete
         public IActionResult Delete(int id)
         {
             var review = _context.Reviews.FirstOrDefault(r => r.Id == id);
@@ -66,11 +68,12 @@ namespace BulgarianPhotoSpots.Controllers
 
             return View(review);
         }
-        // POST: Review/Delete/5
+        // POST: Review/Delete
         [HttpPost]
-        public IActionResult Delete(Review model)
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int id)
         {
-            var review = _context.Reviews.FirstOrDefault(r => r.Id == model.Id);
+            var review = _context.Reviews.FirstOrDefault(r => r.Id == id);
 
             if (review == null)
             {
