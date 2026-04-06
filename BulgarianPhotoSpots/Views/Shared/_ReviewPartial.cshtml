@@ -1,0 +1,41 @@
+﻿@using System.Security.Claims
+@model BulgarianPhotoSpots.Models.Review
+
+<div class="border p-2 mb-2 rounded">
+    <p>
+        <strong>Rating:</strong> @Model.Rating
+    </p>
+
+    <p>
+        @Model.Comment
+
+        @if (Model.EditedOn != null)
+        {
+            <span class="text-muted">(edited)</span>
+        }
+    </p>
+
+    @if (Model.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+    {
+        <a asp-controller="Review"
+               asp-action="Edit"
+               asp-route-id="@Model.Id"
+               class="btn btn-warning btn-sm me-2">
+            Edit
+        </a>
+
+        <form asp-controller="Review"
+              asp-action="DeleteConfirmed"
+              method="post"
+              style="display:inline;">
+            @Html.AntiForgeryToken()
+
+            <input type="hidden" name="id" value="@Model.Id" />
+
+            <button type="submit"
+                    class="btn btn-danger btn-sm">
+                Delete
+            </button>
+        </form>
+    }
+</div>
