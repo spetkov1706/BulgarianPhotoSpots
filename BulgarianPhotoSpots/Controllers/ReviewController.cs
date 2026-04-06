@@ -4,6 +4,7 @@ using BulgarianPhotoSpots.Models;
 using BulgarianPhotoSpots.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using System.Security.Claims;
 
@@ -11,10 +12,22 @@ namespace BulgarianPhotoSpots.Controllers
 {
     public class ReviewController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index(string? sort)
         {
-            var reviews = _context.Reviews.ToList();
-            return View(reviews);
+            ViewBag.CurrentSort = sort;
+
+            var reviews = _context.Reviews
+                .Include(r => r.PhotoSpot)
+                .AsQueryable();
+
+            reviews = sort switch
+            {
+                "rating_desc" => reviews.OrderByDescending(r => r.Rating),
+                "rating_asc" => reviews.OrderBy(r => r.Rating),
+                _ => reviews.OrderByDescending(r => r.Id) 
+            };
+
+            return View(reviews.ToList());
         }
 
         private readonly ApplicationDbContext _context;

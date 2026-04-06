@@ -2,13 +2,42 @@
 
 <h1>Reviews</h1>
 
+<div class="mb-3">
+    <strong>Sort by:</strong>
+
+    <a asp-action="Index"
+       asp-route-sort=""
+       class="btn btn-sm btn-outline-primary">Newest</a>
+
+    <a asp-action="Index"
+       asp-route-sort="rating_desc"
+       class="btn btn-sm btn-outline-warning">Highest Rating</a>
+
+    <a asp-action="Index"
+       asp-route-sort="rating_asc"
+       class="btn btn-sm btn-outline-secondary">Lowest Rating</a>
+</div>
+
 @foreach (var review in Model)
 {
     <div class="border p-3 mb-3 rounded">
     
         <p><strong>Author:</strong> @review.AuthorName</p>
         <p><strong>Comment:</strong> @review.Comment</p>
-        <p><strong>Rating:</strong> @review.Rating</p>
+        <p>
+            <strong>Rating:</strong> @review.Rating
+            @for (int i = 1; i <= 5; i++)
+            {
+                if (i <= review.Rating / 2)
+                {
+                    <span style="color:gold;">★</span>
+                }
+                else
+                {
+                    <span style="color:lightgray;">★</span>
+                }
+            }
+        </p>
 
         <a asp-controller="PhotoSpots"
                asp-action="Details"
