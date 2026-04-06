@@ -83,7 +83,7 @@ namespace BulgarianPhotoSpots.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> Details(int id, string? tab)
+        public async Task<IActionResult> Details(int id, string? tab, string? sort)
         {
             var photoSpot = _context.PhotoSpots
                 .Include(p => p.Reviews)
@@ -93,6 +93,18 @@ namespace BulgarianPhotoSpots.Controllers
                 return NotFound();
 
             ViewBag.Tab = tab;
+            ViewBag.CurrentSort = sort;
+
+            var reviews = photoSpot.Reviews.AsQueryable();
+
+            reviews = sort switch
+            {
+                "rating_desc" => reviews.OrderByDescending(r => r.Rating),
+                "rating_asc" => reviews.OrderBy(r => r.Rating),
+                _ => reviews.OrderByDescending(r => r.Id)
+            };
+
+            photoSpot.Reviews = reviews.ToList();
 
             ViewBag.AverageRating = photoSpot.Reviews.Any()
                 ? photoSpot.Reviews.Average(r => r.Rating)

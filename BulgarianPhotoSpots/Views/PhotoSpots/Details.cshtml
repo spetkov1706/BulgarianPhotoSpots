@@ -33,6 +33,25 @@
     </a>
 </div>
 
+<div class="mb-2">
+    <strong>Sort by:</strong>
+
+    <a asp-action="Details"
+       asp-route-id="@Model.Id"
+       asp-route-sort=""
+       class="btn btn-sm btn-outline-primary">Newest</a>
+
+    <a asp-action="Details"
+       asp-route-id="@Model.Id"
+       asp-route-sort="rating_desc"
+       class="btn btn-sm btn-outline-warning">Highest Rating</a>
+
+    <a asp-action="Details"
+       asp-route-id="@Model.Id"
+       asp-route-sort="rating_asc"
+       class="btn btn-sm btn-outline-secondary">Lowest Rating</a>
+</div>
+
 <h4 class="mt-4">Reviews</h4>
 
 @if (Model.Reviews != null && Model.Reviews.Any())
