@@ -54,6 +54,8 @@ namespace BulgarianPhotoSpots.Controllers
                 AuthorName = User.Identity?.Name ?? "Anonymous"
             };
 
+            review.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             _context.Reviews.Add(review);
             _context.SaveChanges();
 
@@ -89,10 +91,20 @@ namespace BulgarianPhotoSpots.Controllers
                 return NotFound();
             }
 
+            var photoSpotId = review.PhotoSpotId; 
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (review.UserId != userId)
+            {
+                TempData["ErrorMessage"] = "You cannot delete someone else's review!";
+                return RedirectToAction("Details", "PhotoSpots", new { id = photoSpotId });
+            }
+
             _context.Reviews.Remove(review);
             _context.SaveChanges();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "PhotoSpots", new { id = photoSpotId });
         }
 
         // GET: Review/Edit
