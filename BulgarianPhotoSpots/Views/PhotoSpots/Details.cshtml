@@ -30,8 +30,20 @@
     foreach (var review in Model.Reviews)
     {
         <div class="border p-2 mb-2 rounded">
+            <strong>Rating:</strong> @review.Rating
             <p>@review.Comment</p>
-            <small>Rating: @review.Rating</small>
+
+            <form asp-controller="Review"
+                  asp-action="Delete"
+                  method="post">
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" name="id" value="@review.Id" />
+
+                <button type="submit" class="btn btn-danger btn-sm">
+                    Delete
+                </button>
+            </form>
         </div>
     }
 }

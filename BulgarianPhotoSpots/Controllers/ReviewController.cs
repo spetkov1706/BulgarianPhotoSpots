@@ -61,16 +61,21 @@ namespace BulgarianPhotoSpots.Controllers
         }
 
         // GET: Review/Delete
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
         {
             var review = _context.Reviews.FirstOrDefault(r => r.Id == id);
 
             if (review == null)
-            {
                 return NotFound();
-            }
 
-            return View(review);
+            var photoSpotId = review.PhotoSpotId;
+
+            _context.Reviews.Remove(review);
+            _context.SaveChanges();
+
+            return RedirectToAction("Details", "PhotoSpots", new { id = photoSpotId });
         }
         // POST: Review/Delete
         [HttpPost]
