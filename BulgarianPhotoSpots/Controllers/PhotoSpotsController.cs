@@ -94,6 +94,10 @@ namespace BulgarianPhotoSpots.Controllers
 
             ViewBag.Tab = tab;
 
+            ViewBag.AverageRating = photoSpot.Reviews.Any()
+                ? photoSpot.Reviews.Average(r => r.Rating)
+                : 0;
+
             return View(photoSpot);
         }
 

@@ -40,7 +40,22 @@
     foreach (var review in Model.Reviews)
     {
         <div class="border p-2 mb-2 rounded">
-            <strong>Rating:</strong> @review.Rating
+            <p>
+                <strong>Average Rating:</strong>
+                @ViewBag.AverageRating.ToString("0.0")
+
+                @for (int i = 1; i <= 5; i++)
+                {
+                    if (i <= Math.Round((double)ViewBag.AverageRating))
+                    {
+                        <span>⭐</span>
+                    }
+                    else
+                    {
+                        <span>☆</span>
+                    }
+                }
+            </p>
             <p>
                 @review.Comment
 
