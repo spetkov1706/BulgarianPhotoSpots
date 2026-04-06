@@ -1,9 +1,11 @@
 ﻿using BulgarianPhotoSpots.Infrastructure.Data;
+using BulgarianPhotoSpots.Infrastructure.Migrations;
 using BulgarianPhotoSpots.Models;
-using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using BulgarianPhotoSpots.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Migrations;
+using System.Security.Claims;
 
 namespace BulgarianPhotoSpots.Controllers
 {
@@ -162,6 +164,7 @@ namespace BulgarianPhotoSpots.Controllers
 
             review.Comment = model.Comment;
             review.Rating = model.Rating;
+            review.EditedOn = DateTime.Now;
 
             _context.SaveChanges();
 

@@ -24,5 +24,7 @@ namespace BulgarianPhotoSpots.Models
         public DateTime CreatedOn { get; set; }
 
         public string UserId { get; set; } = null!;
+
+        public DateTime? EditedOn { get; set; }
     }
 }

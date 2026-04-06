@@ -41,7 +41,14 @@
     {
         <div class="border p-2 mb-2 rounded">
             <strong>Rating:</strong> @review.Rating
-            <p>@review.Comment</p>
+            <p>
+                @review.Comment
+
+                @if (review.EditedOn != null)
+                {
+                    <span class="text-muted">(edited)</span>
+                }
+            </p>
 
             @if (review.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
             {
