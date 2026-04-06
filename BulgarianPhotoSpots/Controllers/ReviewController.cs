@@ -3,6 +3,7 @@ using BulgarianPhotoSpots.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using BulgarianPhotoSpots.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BulgarianPhotoSpots.Controllers
 {
@@ -33,10 +34,13 @@ namespace BulgarianPhotoSpots.Controllers
         }
 
         // POST: Review/Create
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(ReviewViewModel model)
         {
+            Console.WriteLine(model.PhotoSpotId);
+
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -47,7 +51,7 @@ namespace BulgarianPhotoSpots.Controllers
                 Comment = model.Comment,
                 Rating = model.Rating,
                 PhotoSpotId = model.PhotoSpotId,
-                AuthorName = User.Identity?.Name
+                AuthorName = User.Identity?.Name ?? "Anonymous"
             };
 
             _context.Reviews.Add(review);
