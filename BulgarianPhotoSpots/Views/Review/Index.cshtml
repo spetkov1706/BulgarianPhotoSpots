@@ -17,17 +17,5 @@
             View Spot
         </a>
 
-        <form asp-controller="Review"
-              asp-action="Delete"
-              method="post"
-              class="d-inline">
-            <input type="hidden" name="id" value="@review.Id" />
-
-            <button class="btn btn-danger btn-sm"
-                    onclick="return confirm('Are you sure you want to delete this review?')">
-                Delete
-            </button>
-        </form>
-
     </div>
 }

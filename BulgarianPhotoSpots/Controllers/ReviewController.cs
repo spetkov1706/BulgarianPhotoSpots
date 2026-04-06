@@ -94,5 +94,51 @@ namespace BulgarianPhotoSpots.Controllers
 
             return RedirectToAction("Index");
         }
+
+        // GET: Review/Edit
+        public IActionResult Edit(int id)
+        {
+            var review = _context.Reviews.Find(id);
+
+            if (review == null)
+            {
+                return NotFound();
+            }
+
+            var model = new ReviewViewModel
+            {
+                Id = review.Id,
+                Comment = review.Comment,
+                Rating = review.Rating,
+                PhotoSpotId = review.PhotoSpotId
+            };
+
+            return View(model);
+        }
+
+        // POST: Review/Edit
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(ReviewViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var review = _context.Reviews.Find(model.Id);
+
+            if (review == null)
+            {
+                return NotFound();
+            }
+
+            review.Comment = model.Comment;
+            review.Rating = model.Rating;
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Details", "PhotoSpots", new { id = model.PhotoSpotId });
+        }
     }
 }

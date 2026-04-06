@@ -33,6 +33,13 @@
             <strong>Rating:</strong> @review.Rating
             <p>@review.Comment</p>
 
+            <a asp-controller="Review"
+                   asp-action="Edit"
+                   asp-route-id="@review.Id"
+                   class="btn btn-warning btn-sm">
+                Edit
+            </a>
+
             <form asp-controller="Review"
                   asp-action="Delete"
                   method="post">

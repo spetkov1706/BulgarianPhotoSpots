@@ -4,6 +4,7 @@ namespace BulgarianPhotoSpots.ViewModels
 {
     public class ReviewViewModel
     {
+        public int Id { get; set; }
         public int PhotoSpotId { get; set; }
 
         [Required(ErrorMessage = "Comment is required")]
