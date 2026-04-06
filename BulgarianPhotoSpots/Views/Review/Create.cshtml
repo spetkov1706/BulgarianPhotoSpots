@@ -1,23 +1,32 @@
 ﻿@model BulgarianPhotoSpots.ViewModels.ReviewViewModel
 
+<h2>Add Review</h2>
+
 <form asp-action="Create" method="post">
 
     @Html.AntiForgeryToken()
 
     <input type="hidden" asp-for="PhotoSpotId" />
 
-    <div asp-validation-summary="All" style="color:red"></div>
+    <div asp-validation-summary="All" class="text-danger"></div>
 
-    <div>
-        <label>Comment</label>
-        <textarea asp-for="Comment"></textarea>
+    <div class="mb-3">
+        <label asp-for="Comment"></label>
+        <textarea asp-for="Comment" class="form-control"></textarea>
+        <span asp-validation-for="Comment" class="text-danger"></span>
     </div>
 
-    <div>
-        <label>Rating</label>
-        <input asp-for="Rating" type="number" />
+    <div class="mb-3">
+        <label asp-for="Rating"></label>
+        <input asp-for="Rating" type="number" class="form-control" />
+        <span asp-validation-for="Rating" class="text-danger"></span>
     </div>
 
-    <button type="submit">Add</button>
-
+    <button type="submit" class="btn btn-primary">Add Review</button>
 </form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
