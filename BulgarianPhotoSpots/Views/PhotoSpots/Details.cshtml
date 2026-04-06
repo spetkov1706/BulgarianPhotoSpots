@@ -1,4 +1,5 @@
-﻿@model BulgarianPhotoSpots.Models.PhotoSpot
+﻿@using System.Security.Claims
+@model BulgarianPhotoSpots.Models.PhotoSpot
 
 <h2>Photo Spot Details</h2>
 
@@ -42,11 +43,12 @@
             <strong>Rating:</strong> @review.Rating
             <p>@review.Comment</p>
 
-            <div class="mt-2">
+            @if (review.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+            {
                 <a asp-controller="Review"
                        asp-action="Edit"
                        asp-route-id="@review.Id"
-                       class="btn btn-warning btn-sm me-1">
+                       class="btn btn-warning btn-sm me-2">
                     Edit
                 </a>
 
@@ -64,7 +66,7 @@
                         Delete
                     </button>
                 </form>
-            </div>
+            }
         </div>
     }
 }

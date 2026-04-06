@@ -117,9 +117,16 @@ namespace BulgarianPhotoSpots.Controllers
                 return NotFound();
             }
 
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (review.UserId != userId)
+            {
+                TempData["ErrorMessage"] = "You cannot edit someone else's review!";
+                return RedirectToAction("Details", "PhotoSpots", new { id = review.PhotoSpotId });
+            }
+
             var model = new ReviewViewModel
             {
-                Id = review.Id,
                 Comment = review.Comment,
                 Rating = review.Rating,
                 PhotoSpotId = review.PhotoSpotId
@@ -131,18 +138,26 @@ namespace BulgarianPhotoSpots.Controllers
         // POST: Review/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(ReviewViewModel model)
+        public IActionResult Edit(int id, ReviewViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            var review = _context.Reviews.Find(model.Id);
+            var review = _context.Reviews.Find(id);
 
             if (review == null)
             {
                 return NotFound();
+            }
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (review.UserId != userId)
+            {
+                TempData["ErrorMessage"] = "You cannot edit someone else's review!";
+                return RedirectToAction("Details", "PhotoSpots", new { id = review.PhotoSpotId });
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
             }
 
             review.Comment = model.Comment;
@@ -150,7 +165,7 @@ namespace BulgarianPhotoSpots.Controllers
 
             _context.SaveChanges();
 
-            return RedirectToAction("Details", "PhotoSpots", new { id = model.PhotoSpotId });
+            return RedirectToAction("Details", "PhotoSpots", new { id = review.PhotoSpotId });
         }
     }
 }
