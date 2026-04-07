@@ -23,4 +23,8 @@
     <ProjectReference Include="..\BulgarianPhotoSpots.Infrastructure\BulgarianPhotoSpots.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Views\Shared\" />
+  </ItemGroup>
+
 </Project>
