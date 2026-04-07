@@ -8,7 +8,7 @@ namespace BulgarianPhotoSpots
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +26,7 @@ namespace BulgarianPhotoSpots
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequiredLength = 6;
             })
+            .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
             builder.Services.AddRazorPages();
@@ -40,10 +41,36 @@ namespace BulgarianPhotoSpots
                 {
                     context.Database.Migrate();
                     DbSeeder.Seed(context);
+                    await DbSeeder.SeedRolesAndAdminAsync(scope.ServiceProvider);
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
+                }
+
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+                string email = "admin@admin.com";
+
+                if (!await roleManager.RoleExistsAsync("Admin"))
+                {
+                    await roleManager.CreateAsync(new IdentityRole("Admin"));
+                }
+
+                var user = await userManager.FindByEmailAsync(email);
+
+                if (user != null)
+                {
+                    var currentRoles = await userManager.GetRolesAsync(user);
+                    if (currentRoles.Any())
+                    {
+                        await userManager.RemoveFromRolesAsync(user, currentRoles);
+                    }
+
+                    await userManager.AddToRoleAsync(user, "Admin");
+
+                    Console.WriteLine("ADMIN ROLE FORCE ASSIGNED");
                 }
             }
 

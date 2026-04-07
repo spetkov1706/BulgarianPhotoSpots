@@ -169,10 +169,12 @@ namespace BulgarianPhotoSpots.Controllers
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (photoSpot.UserId != userId)
+            var isAdmin = User.Claims.Any(c => c.Type == ClaimTypes.Role && c.Value == "Admin");
+
+            if (photoSpot.UserId != userId && !isAdmin)
             {
                 TempData["ErrorMessage"] = "You cannot edit other users' photo spots!";
-                return RedirectToAction(nameof(Index)); 
+                return RedirectToAction(nameof(Index));
             }
 
             return View(photoSpot);
@@ -192,9 +194,11 @@ namespace BulgarianPhotoSpots.Controllers
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (photoSpot.UserId != userId)
+            var isAdmin = User.Claims.Any(c => c.Type == ClaimTypes.Role && c.Value == "Admin");
+
+            if (photoSpot.UserId != userId && !isAdmin)
             {
-                TempData["ErrorMessage"] = "You cannot edit other users' photo spots.";
+                TempData["ErrorMessage"] = "You cannot edit other users' photo spots!";
                 return RedirectToAction(nameof(Index));
             }
 
@@ -222,7 +226,7 @@ namespace BulgarianPhotoSpots.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var photoSpot = await _photoSpotService.GetByIdAsync(id);
@@ -233,9 +237,9 @@ namespace BulgarianPhotoSpots.Controllers
             return View(photoSpot);
         }
 
-        [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await _photoSpotService.DeleteAsync(id);

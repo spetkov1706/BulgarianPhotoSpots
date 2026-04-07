@@ -80,23 +80,30 @@ namespace BulgarianPhotoSpots.Controllers
         // GET: Review/Delete
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        [Authorize]
         public IActionResult Delete(int id)
         {
             var review = _context.Reviews.FirstOrDefault(r => r.Id == id);
 
             if (review == null)
+            {
                 return NotFound();
+            }
 
-            var photoSpotId = review.PhotoSpotId;
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            _context.Reviews.Remove(review);
-            _context.SaveChanges();
+            if (review.UserId != userId && !User.IsInRole("Admin"))
+            {
+                return Forbid();
+            }
 
-            return RedirectToAction("Details", "PhotoSpots", new { id = photoSpotId });
+            return View(review);
         }
         // POST: Review/Delete
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public IActionResult DeleteConfirmed(int id)
         {
             var review = _context.Reviews.FirstOrDefault(r => r.Id == id);
@@ -106,15 +113,14 @@ namespace BulgarianPhotoSpots.Controllers
                 return NotFound();
             }
 
-            var photoSpotId = review.PhotoSpotId; 
-
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (review.UserId != userId)
+            if (review.UserId != userId && !User.IsInRole("Admin"))
             {
-                TempData["ErrorMessage"] = "You cannot delete someone else's review!";
-                return RedirectToAction("Details", "PhotoSpots", new { id = photoSpotId });
+                return Forbid();
             }
+
+            var photoSpotId = review.PhotoSpotId;
 
             _context.Reviews.Remove(review);
             _context.SaveChanges();

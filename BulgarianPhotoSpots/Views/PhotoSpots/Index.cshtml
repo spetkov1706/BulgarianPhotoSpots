@@ -105,9 +105,14 @@ else
                 <td>
                     <a asp-action="Details" asp-route-id="@spot.Id" class="btn btn-success btn-sm">Details</a>
 
-                    @if (User.Identity.IsAuthenticated && spot.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                    @if (User.Identity.IsAuthenticated &&
+                        (spot.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier) || User.IsInRole("Admin")))
                     {
                         <a asp-action="Edit" asp-route-id="@spot.Id" class="btn btn-warning btn-sm">Edit</a>
+                    }
+
+                    @if (User.IsInRole("Admin"))
+                    {
                         <a asp-action="Delete" asp-route-id="@spot.Id" class="btn btn-danger btn-sm">Delete</a>
                     }
 

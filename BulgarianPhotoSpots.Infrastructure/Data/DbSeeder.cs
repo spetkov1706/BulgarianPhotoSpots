@@ -1,5 +1,7 @@
-﻿using BulgarianPhotoSpots.Models;
-using BulgarianPhotoSpots.Infrastructure.Data;
+﻿using BulgarianPhotoSpots.Infrastructure.Data;
+using BulgarianPhotoSpots.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 
 public static class DbSeeder
 {
@@ -50,6 +52,39 @@ public static class DbSeeder
             );
 
             context.SaveChanges();
+        }
+    } 
+    public static async Task SeedRolesAndAdminAsync(IServiceProvider serviceProvider)
+    {
+        var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+        if (!await roleManager.RoleExistsAsync("Admin"))
+            await roleManager.CreateAsync(new IdentityRole("Admin"));
+
+        if (!await roleManager.RoleExistsAsync("User"))
+            await roleManager.CreateAsync(new IdentityRole("User"));
+
+        string email = "admin@admin.com";
+        string password = "Admin123!";
+
+        var user = await userManager.FindByEmailAsync(email);
+
+        if (user == null)
+        {
+            user = new IdentityUser
+            {
+                UserName = email,
+                Email = email,
+                EmailConfirmed = true
+            };
+
+            await userManager.CreateAsync(user, password);
+        }
+
+        if (!await userManager.IsInRoleAsync(user, "Admin"))
+        {
+            await userManager.AddToRoleAsync(user, "Admin");
         }
     }
 }
