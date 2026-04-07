@@ -17,12 +17,14 @@ namespace BulgarianPhotoSpots.Controllers
             return View();
         }
 
-        public IActionResult Error(int statusCode)
+        public IActionResult Error(int? statusCode = null)
         {
-            return View(new ErrorViewModel
+            if (statusCode == 404)
             {
-                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
-            });
+                return View("NotFound");
+            }
+
+            return View();
         }
     }
 }
