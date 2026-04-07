@@ -2,10 +2,10 @@
 
 ## 📌 Description
 
-A web application for managing photography locations in Bulgaria.  
-Allows creating, editing, deleting, and viewing categories and photo spots.
+A web application for managing photography locations in Bulgaria.
+It allows users to create, edit, delete, and explore photo spots and categories.
 
-The project demonstrates the use of layered architecture, separation of concerns, and best practices in ASP.NET Core MVC.
+The project demonstrates clean layered architecture, separation of concerns, and good practices in ASP.NET Core MVC.
 
 ---
 
@@ -13,27 +13,21 @@ The project demonstrates the use of layered architecture, separation of concerns
 
 1. Clone the repository:
 
-
 git clone <repo-url>
 
-
-2. Open the project in Visual Studio
+2. Open the solution in Visual Studio
 
 3. Set up the database:
 
 * Open **Package Manager Console**
 * Run:
 
-
 Add-Migration InitialCreate
 Update-Database
 
-
 4. Run the project:
 
-
 Ctrl + F5
-
 
 ---
 
@@ -42,23 +36,24 @@ Ctrl + F5
 The application uses ASP.NET Identity.
 
 Supported features:
-- Register
-- Login
-- Logout
+
+* Register
+* Login
+* Logout
 
 ---
 
 ## 🧱 Architecture
 
-The project is structured into layers:
+The project follows a layered architecture:
 
-- **BulgarianPhotoSpots (Web)**  
+* **BulgarianPhotoSpots (Web)**
   Controllers, Views, UI logic
 
-- **BulgarianPhotoSpots.Core**  
+* **BulgarianPhotoSpots.Core**
   Interfaces, business logic, ViewModels
 
-- **BulgarianPhotoSpots.Infrastructure**  
+* **BulgarianPhotoSpots.Infrastructure**
   DbContext, Entity Framework, services
 
 ---
@@ -66,37 +61,55 @@ The project is structured into layers:
 ## ⚙️ Features
 
 ### Categories
-- Create
-- Edit
-- Delete
-- Details
+
+* Create
+* Edit
+* Delete
+* Details
 
 ### PhotoSpots
-- Create (with category dropdown)
-- Edit
-- Delete
-- Details
+
+* Create (with category selection)
+* Edit
+* Delete
+* Details
+
+### Additional
+
+* Search and filtering
+* Pagination
+* Favorites
+* Reviews and ratings
+* Admin area
+* Error handling (404 / 500 pages)
 
 ---
 
 ## 🧪 Testing
 
-The application has been tested manually by:
+The project includes unit tests for the service layer:
 
-- creating records
-- editing
-- deleting
-- validating input data
-- testing invalid IDs (returns NotFound)
+* PhotoSpotService tests
+* In-memory database usage
+* Covers basic CRUD operations
+
+Manual testing includes:
+
+* creating records
+* editing
+* deleting
+* validation checks
+* handling invalid IDs (NotFound)
 
 ---
 
 ## 📦 Technologies
 
-- ASP.NET Core MVC
-- Entity Framework Core
-- SQL Server
-- ASP.NET Identity
+* ASP.NET Core MVC
+* Entity Framework Core
+* SQL Server
+* ASP.NET Identity
+* xUnit (Unit Testing)
 
 ---
 
