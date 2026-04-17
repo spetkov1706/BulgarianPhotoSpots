@@ -17,21 +17,24 @@ namespace BulgarianPhotoSpots.Infrastructure.Services
         public async Task<List<PhotoSpot>> GetAllAsync()
         {
             return await _context.PhotoSpots
-                .AsNoTracking()
-                .Include(p => p.Category)
                 .ToListAsync();
         }
 
         public async Task<PhotoSpot?> GetByIdAsync(int id)
         {
             return await _context.PhotoSpots
-                .AsNoTracking()
-                .Include(p => p.Category)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task CreateAsync(PhotoSpot model)
         {
+            if (model.Id == 0)
+            {
+                model.Id = _context.PhotoSpots.Any()
+                    ? _context.PhotoSpots.Max(x => x.Id) + 1
+                    : 1;
+            }
+
             await _context.PhotoSpots.AddAsync(model);
             await _context.SaveChangesAsync();
         }
@@ -44,13 +47,15 @@ namespace BulgarianPhotoSpots.Infrastructure.Services
 
         public async Task DeleteAsync(int id)
         {
-            var entity = await _context.PhotoSpots.FindAsync(id);
+            var entity = await _context.PhotoSpots.FirstOrDefaultAsync(p => p.Id == id);
 
-            if (entity != null)
+            if (entity == null)
             {
-                _context.PhotoSpots.Remove(entity);
-                await _context.SaveChangesAsync();
+                return;
             }
+
+            _context.PhotoSpots.Remove(entity);
+            await _context.SaveChangesAsync();
         }
     }
 }
