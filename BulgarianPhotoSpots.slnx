@@ -1,6 +1,5 @@
 <Solution>
   <Project Path="BulgarianPhotoSpots.Core/BulgarianPhotoSpots.Core.csproj" Id="10d5d22b-b6d6-4539-9b49-613c6454cfa6" />
   <Project Path="BulgarianPhotoSpots.Infrastructure/BulgarianPhotoSpots.Infrastructure.csproj" Id="0389d664-c086-4618-8f93-e034000a8327" />
-  <Project Path="BulgarianPhotoSpots.Tests/BulgarianPhotoSpots.Tests.csproj" Id="7a9f86f0-4943-40bb-9203-fb8a95ad413b" />
   <Project Path="BulgarianPhotoSpots/BulgarianPhotoSpots.csproj" />
 </Solution>
