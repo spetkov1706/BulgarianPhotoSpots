@@ -226,7 +226,6 @@ namespace BulgarianPhotoSpots.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var photoSpot = await _photoSpotService.GetByIdAsync(id);
@@ -239,7 +238,6 @@ namespace BulgarianPhotoSpots.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await _photoSpotService.DeleteAsync(id);

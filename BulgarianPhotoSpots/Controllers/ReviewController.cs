@@ -80,7 +80,6 @@ namespace BulgarianPhotoSpots.Controllers
         // GET: Review/Delete
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
         [Authorize]
         public IActionResult Delete(int id)
         {
