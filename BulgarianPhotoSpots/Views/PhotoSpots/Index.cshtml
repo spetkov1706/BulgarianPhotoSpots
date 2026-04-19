@@ -111,7 +111,8 @@ else
                         <a asp-action="Edit" asp-route-id="@spot.Id" class="btn btn-warning btn-sm">Edit</a>
                     }
 
-                    @if (User.IsInRole("Admin"))
+                    @if (User.Identity.IsAuthenticated &&
+                        spot.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
                     {
                         <a asp-action="Delete" asp-route-id="@spot.Id" class="btn btn-danger btn-sm">Delete</a>
                     }

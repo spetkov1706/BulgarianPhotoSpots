@@ -29,7 +29,8 @@
         Add Review
     </a>
 
-    @if (User.IsInRole("Admin"))
+    @if (User.Identity.IsAuthenticated &&
+        Model.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
     {
         <a asp-action="Delete"
                asp-route-id="@Model.Id"

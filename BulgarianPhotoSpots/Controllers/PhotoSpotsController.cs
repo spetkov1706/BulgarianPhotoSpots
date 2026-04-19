@@ -226,6 +226,7 @@ namespace BulgarianPhotoSpots.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             var photoSpot = await _photoSpotService.GetByIdAsync(id);
@@ -233,13 +234,32 @@ namespace BulgarianPhotoSpots.Controllers
             if (photoSpot == null)
                 return NotFound();
 
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (photoSpot.UserId != userId)
+            {
+                TempData["ErrorMessage"] = "You cannot delete this photo spot!";
+                return RedirectToAction(nameof(Index));
+            }
+
             return View(photoSpot);
         }
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            var photoSpot = await _photoSpotService.GetByIdAsync(id);
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (photoSpot.UserId != userId)
+            {
+                TempData["ErrorMessage"] = "You cannot delete this photo spot!";
+                return RedirectToAction(nameof(Index));
+            }
+
             await _photoSpotService.DeleteAsync(id);
 
             return RedirectToAction(nameof(Index));

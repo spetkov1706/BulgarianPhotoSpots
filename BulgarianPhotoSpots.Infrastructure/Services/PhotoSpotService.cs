@@ -28,13 +28,6 @@ namespace BulgarianPhotoSpots.Infrastructure.Services
 
         public async Task CreateAsync(PhotoSpot model)
         {
-            if (model.Id == 0)
-            {
-                model.Id = _context.PhotoSpots.Any()
-                    ? _context.PhotoSpots.Max(x => x.Id) + 1
-                    : 1;
-            }
-
             await _context.PhotoSpots.AddAsync(model);
             await _context.SaveChangesAsync();
         }
