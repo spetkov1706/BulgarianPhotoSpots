@@ -36,6 +36,7 @@ namespace BulgarianPhotoSpots.Controllers
         }
 
         // GET: Review/Create
+        [Authorize]
         public IActionResult Create(int photoSpotId)
         {
             var model = new ReviewViewModel
