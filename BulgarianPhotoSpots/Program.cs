@@ -41,7 +41,6 @@ namespace BulgarianPhotoSpots
                 {
                     context.Database.Migrate();
                     DbSeeder.Seed(context);
-                    await DbSeeder.SeedRolesAndAdminAsync(scope.ServiceProvider);
                 }
                 catch (Exception ex)
                 {
