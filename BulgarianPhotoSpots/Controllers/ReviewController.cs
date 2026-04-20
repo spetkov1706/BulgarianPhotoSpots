@@ -93,9 +93,10 @@ namespace BulgarianPhotoSpots.Controllers
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (review.UserId != userId && !User.IsInRole("Admin"))
+            if (review.UserId != userId)
             {
-                return Forbid();
+                TempData["ErrorMessage"] = "You cannot delete someone else's review!";
+                return RedirectToAction("Details", "PhotoSpots", new { id = review.PhotoSpotId });
             }
 
             return View(review);
@@ -115,9 +116,10 @@ namespace BulgarianPhotoSpots.Controllers
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (review.UserId != userId && !User.IsInRole("Admin"))
+            if (review.UserId != userId)
             {
-                return Forbid();
+                TempData["ErrorMessage"] = "You cannot delete someone else's review!";
+                return RedirectToAction("Details", "PhotoSpots", new { id = review.PhotoSpotId });
             }
 
             var photoSpotId = review.PhotoSpotId;
