@@ -54,8 +54,8 @@ namespace BulgarianPhotoSpots.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Categories/Edit/5
-        [Authorize]
+        // GET: Categories/Edit
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id)
         {
             var category = await _categoryService.GetByIdAsync(id);
@@ -67,7 +67,7 @@ namespace BulgarianPhotoSpots.Controllers
         }
 
         // POST: Categories/Edit/5
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Category category)
@@ -83,7 +83,7 @@ namespace BulgarianPhotoSpots.Controllers
         }
 
         // GET: Categories/Delete/5
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var category = await _categoryService.GetByIdAsync(id);
@@ -94,8 +94,8 @@ namespace BulgarianPhotoSpots.Controllers
             return View(category);
         }
 
-        // POST: Categories/Delete/5
-        [Authorize]
+        // POST: Categories/Delete
+        [Authorize(Roles = "Admin")] 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

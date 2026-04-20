@@ -226,7 +226,7 @@ namespace BulgarianPhotoSpots.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var photoSpot = await _photoSpotService.GetByIdAsync(id);
@@ -236,7 +236,7 @@ namespace BulgarianPhotoSpots.Controllers
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (photoSpot.UserId != userId)
+            if (photoSpot.UserId != userId && !User.IsInRole("Admin"))
             {
                 TempData["ErrorMessage"] = "You cannot delete this photo spot!";
                 return RedirectToAction(nameof(Index));
@@ -247,14 +247,14 @@ namespace BulgarianPhotoSpots.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var photoSpot = await _photoSpotService.GetByIdAsync(id);
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (photoSpot.UserId != userId)
+            if (!User.IsInRole("Admin") && photoSpot.UserId != userId)
             {
                 TempData["ErrorMessage"] = "You cannot delete this photo spot!";
                 return RedirectToAction(nameof(Index));

@@ -50,26 +50,29 @@ namespace BulgarianPhotoSpots
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-                string email = "admin@admin.com";
+                string email = "admin@admin.com"; 
+                string adminRole = "Admin";
 
-                if (!await roleManager.RoleExistsAsync("Admin"))
+                if (!await roleManager.RoleExistsAsync(adminRole))
                 {
-                    await roleManager.CreateAsync(new IdentityRole("Admin"));
+                    await roleManager.CreateAsync(new IdentityRole(adminRole));
                 }
 
-                var user = await userManager.FindByEmailAsync(email);
-
-                if (user != null)
+                var adminUser = await userManager.FindByEmailAsync(email);
+                if (adminUser == null)
                 {
-                    var currentRoles = await userManager.GetRolesAsync(user);
-                    if (currentRoles.Any())
+                    adminUser = new IdentityUser
                     {
-                        await userManager.RemoveFromRolesAsync(user, currentRoles);
-                    }
+                        UserName = email,
+                        Email = email,
+                        EmailConfirmed = true
+                    };
+                    await userManager.CreateAsync(adminUser, "Admin123!"); 
+                }
 
-                    await userManager.AddToRoleAsync(user, "Admin");
-
-                    Console.WriteLine("ADMIN ROLE FORCE ASSIGNED");
+                if (adminUser != null && !await userManager.IsInRoleAsync(adminUser, adminRole))
+                {
+                    await userManager.AddToRoleAsync(adminUser, adminRole);
                 }
             }
 

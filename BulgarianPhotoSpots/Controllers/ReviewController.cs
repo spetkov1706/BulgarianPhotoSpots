@@ -1,11 +1,9 @@
 ﻿using BulgarianPhotoSpots.Infrastructure.Data;
-using BulgarianPhotoSpots.Infrastructure.Migrations;
 using BulgarianPhotoSpots.Models;
 using BulgarianPhotoSpots.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Migrations;
 using System.Security.Claims;
 
 namespace BulgarianPhotoSpots.Controllers
@@ -86,15 +84,11 @@ namespace BulgarianPhotoSpots.Controllers
         public IActionResult Delete(int id)
         {
             var review = _context.Reviews.FirstOrDefault(r => r.Id == id);
-
-            if (review == null)
-            {
-                return NotFound();
-            }
+            if (review == null) return NotFound();
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (review.UserId != userId)
+            if (review.UserId != userId && !User.IsInRole("Admin"))
             {
                 return Forbid();
             }
@@ -103,31 +97,31 @@ namespace BulgarianPhotoSpots.Controllers
         }
 
         // POST: Review/Delete
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost, ActionName("Delete")]
         [Authorize]
-        public IActionResult DeleteConfirmed(int id)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var review = _context.Reviews.FirstOrDefault(r => r.Id == id);
+            var review = await _context.Reviews.FindAsync(id);
 
             if (review == null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "PhotoSpots");
             }
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (review.UserId != userId)
+            if (!User.IsInRole("Admin") && review.UserId != currentUserId)
             {
                 return Forbid();
             }
 
-            var photoSpotId = review.PhotoSpotId;
+            var spotId = review.PhotoSpotId;
 
             _context.Reviews.Remove(review);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
-            return RedirectToAction("Details", "PhotoSpots", new { id = photoSpotId });
+            return RedirectToAction("Details", "PhotoSpots", new { id = spotId });
         }
 
         // GET: Review/Edit
