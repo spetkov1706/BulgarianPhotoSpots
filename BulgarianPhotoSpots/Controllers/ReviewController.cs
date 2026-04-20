@@ -61,12 +61,16 @@ namespace BulgarianPhotoSpots.Controllers
                 return View(model);
             }
 
+            var userName = User.FindFirst("Name")?.Value;
+
             var review = new Review
             {
                 Comment = model.Comment,
                 Rating = model.Rating,
                 PhotoSpotId = model.PhotoSpotId,
-                AuthorName = User.Identity?.Name ?? "Anonymous",
+                AuthorName = !string.IsNullOrEmpty(userName)
+                    ? userName
+                    : User.Identity?.Name ?? "Anonymous",
                 CreatedOn = DateTime.Now
             };
 
@@ -79,8 +83,7 @@ namespace BulgarianPhotoSpots.Controllers
         }
 
         // GET: Review/Delete
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpGet]
         [Authorize]
         public IActionResult Delete(int id)
         {
@@ -95,12 +98,12 @@ namespace BulgarianPhotoSpots.Controllers
 
             if (review.UserId != userId)
             {
-                TempData["ErrorMessage"] = "You cannot delete someone else's review!";
-                return RedirectToAction("Details", "PhotoSpots", new { id = review.PhotoSpotId });
+                return Forbid();
             }
 
             return View(review);
         }
+
         // POST: Review/Delete
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -118,8 +121,7 @@ namespace BulgarianPhotoSpots.Controllers
 
             if (review.UserId != userId)
             {
-                TempData["ErrorMessage"] = "You cannot delete someone else's review!";
-                return RedirectToAction("Details", "PhotoSpots", new { id = review.PhotoSpotId });
+                return Forbid();
             }
 
             var photoSpotId = review.PhotoSpotId;

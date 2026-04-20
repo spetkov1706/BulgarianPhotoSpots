@@ -7,7 +7,15 @@
 <p>@Model.Comment</p>
 <p>Rating: @Model.Rating</p>
 
-<form asp-action="Delete" method="post">
+<form asp-action="DeleteConfirmed" method="post">
     <input type="hidden" asp-for="Id" />
-    <button type="submit">Delete</button>
+
+    <button type="submit" class="btn btn-danger">Delete</button>
+
+    <a asp-controller="PhotoSpots"
+           asp-action="Details"
+           asp-route-id="@Model.PhotoSpotId"
+           class="btn btn-secondary">
+        Cancel
+    </a>
 </form>

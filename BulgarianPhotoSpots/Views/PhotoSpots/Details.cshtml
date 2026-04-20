@@ -75,6 +75,12 @@
                     <small class="text-muted ms-2">
                         @review.CreatedOn.ToString("dd.MM.yyyy HH:mm")
                     </small>
+                    @if (review.EditedOn != null)
+                    {
+                        <small class="text-muted ms-2">
+                            (edited @review.EditedOn.Value.ToString("dd.MM.yyyy HH:mm"))
+                        </small>
+                    }
                 </div>
 
                 <p>@review.Comment</p>
@@ -87,12 +93,16 @@
                     <a asp-controller="Review"
                        asp-action="Edit"
                        asp-route-id="@review.Id"
-                       class="btn btn-warning btn-sm">Edit</a>
+                       class="btn btn-warning btn-sm">
+                       Edit
+                   </a>
 
                     <a asp-controller="Review"
-                       asp-action="Delete"
-                       asp-route-id="@review.Id"
-                       class="btn btn-danger btn-sm">Delete</a>
+                           asp-action="Delete"
+                           asp-route-id="@review.Id"
+                           class="btn btn-danger btn-sm">
+                        Delete
+                    </a>
                 }
 
             </div>
