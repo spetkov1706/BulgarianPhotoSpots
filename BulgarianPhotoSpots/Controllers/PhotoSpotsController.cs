@@ -114,24 +114,33 @@ namespace BulgarianPhotoSpots.Controllers
             return View(viewModel);
         }
 
-        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PhotoSpotFormViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                var categories = await _categoryService.GetAllAsync();
-                model.Categories = categories.Select(c => new SelectListItem
-                {
-                    Value = c.Id.ToString(),
-                    Text = c.Name
-                });
-
                 return View(model);
             }
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (model.ImageFile != null)
+            {
+                string uploadsDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+                if (!Directory.Exists(uploadsDir))
+                {
+                    Directory.CreateDirectory(uploadsDir);
+                }
+
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(model.ImageFile.FileName);
+                string filePath = Path.Combine(uploadsDir, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await model.ImageFile.CopyToAsync(stream);
+                }
+
+                model.ImageUrl = "/uploads/" + fileName;
+            }
 
             var photoSpot = new PhotoSpot
             {
@@ -140,12 +149,11 @@ namespace BulgarianPhotoSpots.Controllers
                 Location = model.Location,
                 Rating = model.Rating,
                 CategoryId = model.CategoryId,
-                UserId = userId! 
+                ImageUrl = model.ImageUrl,
+                UserId = User.FindFirstValue(ClaimTypes.NameIdentifier) 
             };
 
             await _photoSpotService.CreateAsync(photoSpot);
-
-            TempData["SuccessMessage"] = "Photo spot created successfully!";
 
             return RedirectToAction(nameof(Index));
         }

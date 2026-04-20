@@ -58,7 +58,8 @@ namespace BulgarianPhotoSpots.Controllers
 
             return View(favorites);
         }
-        public IActionResult Toggle(int photoSpotId)
+        [HttpPost]
+        public IActionResult ToggleFavorite(int photoSpotId)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 

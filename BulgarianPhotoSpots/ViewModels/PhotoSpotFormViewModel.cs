@@ -25,5 +25,7 @@ namespace BulgarianPhotoSpots.ViewModels
         public int CategoryId { get; set; }
 
         public IEnumerable<SelectListItem>? Categories { get; set; }
+        public IFormFile? ImageFile { get; set; }
+        public string? ImageUrl { get; set; }
     }
 }

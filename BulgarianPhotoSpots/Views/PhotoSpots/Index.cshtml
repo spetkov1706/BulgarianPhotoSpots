@@ -20,18 +20,15 @@
 }
 
 @{
-    var favoriteIds = ViewBag.FavoriteIds as List<int>;
+    var favoriteIds = ViewBag.FavoriteIds as List<int> ?? new List<int>();
 }
 
 <h1>Photo Spots in Bulgaria</h1>
-
 <h4>@Model.PageTitle</h4>
 <p>Total Spots: @Model.TotalCount</p>
 
 <form method="get" class="mb-3">
-
     <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-
         <input type="text"
                name="searchTerm"
                value="@Model.SearchTerm"
@@ -51,7 +48,6 @@
         </select>
 
         <button type="submit" class="btn btn-dark">Search</button>
-
     </div>
 
     <div style="margin-top:10px;">
@@ -62,7 +58,6 @@
                class="form-control"
                style="width:300px;" />
     </div>
-
 </form>
 
 @if (User.Identity.IsAuthenticated)
@@ -84,52 +79,58 @@ else
     </a>
 }
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Location</th>
-            <th>Rating</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var spot in Model.PhotoSpots)
+<div class="container mt-4">
+    <div class="row">
+        @foreach (var item in Model.PhotoSpots)
         {
-            <tr>
-                <td>@spot.Title</td>
-                <td>@spot.Description</td>
-                <td>@spot.Location</td>
-                <td>@spot.Rating</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@spot.Id" class="btn btn-success btn-sm">Details</a>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <img src="@(string.IsNullOrEmpty(item.ImageUrl) ? "/images/no-image.png" : item.ImageUrl)"
+                         class="card-img-top" alt="@item.Title" style="height: 200px; object-fit: cover;">
+                    
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">@item.Title</h5>
+                        <p class="card-text text-muted">
+                            <i class="bi bi-geo-alt"></i> @item.Location
+                        </p>
+                        <p class="card-text flex-grow-1">
+                            @(item.Description.Length > 100 ? item.Description.Substring(0, 100) + "..." : item.Description)
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <div class="text-warning">
+                                <i class="bi bi-star-fill"></i> @item.Rating/10
+                            </div>
+    
+                            <div class="d-flex align-items-center">
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    var isFavorite = favoriteIds != null && favoriteIds.Contains(item.Id);
+            
+                                    <form asp-controller="Favorite" asp-action="ToggleFavorite" method="post" class="me-2">
+                                        <input type="hidden" name="photoSpotId" value="@item.Id" />
+                                        <button type="submit" class="btn btn-link p-0 border-0 shadow-none">
+                                            <i class="bi @(isFavorite ? "bi-heart-fill text-danger" : "bi-heart text-muted")" style="font-size: 1.5rem;"></i>
+                                        </button>
+                                    </form>
+                                }
 
-                    @if (User.Identity.IsAuthenticated &&
-                        (spot.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier) || User.IsInRole("Admin")))
-                    {
-                        <a asp-action="Edit" asp-route-id="@spot.Id" class="btn btn-warning btn-sm">Edit</a>
-                    }
-
-                    @if (User.Identity.IsAuthenticated &&
-                        spot.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
-                    {
-                        <a asp-action="Delete" asp-route-id="@spot.Id" class="btn btn-danger btn-sm">Delete</a>
-                    }
-
-                    <a asp-controller="Favorite"
-                           asp-action="Toggle"
-                           asp-route-photoSpotId="@spot.Id">
-                        @(favoriteIds != null && favoriteIds.Contains(spot.Id) ? "❤️" : "🤍")
-                    </a>
-                </td>
-            </tr>
+                                <div class="btn-group">
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">Details</a>
+                                    @if (User.IsInRole("Admin") || item.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                                    {
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+                </div>
+            </div>
         }
-    </tbody>
-</table>
+    </div>
+</div>
 
 <div class="mt-3">
-
     @if (Model.TotalPages > 1)
     {
         for (int i = 1; i <= Model.TotalPages; i++)
@@ -144,5 +145,4 @@ else
             </a>
         }
     }
-
 </div>
