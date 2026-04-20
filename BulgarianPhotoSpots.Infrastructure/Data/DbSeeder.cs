@@ -31,7 +31,8 @@ public static class DbSeeder
                     Description = "7 lakes in Rila mountain",
                     Location = "Rila",
                     Rating = 10,
-                    CategoryId = categories.First(c => c.Name == "Mountains").Id
+                    CategoryId = categories.First(c => c.Name == "Mountains").Id,
+                    ImageUrl = "/uploads/rila.png" 
                 },
                 new PhotoSpot
                 {
@@ -39,7 +40,8 @@ public static class DbSeeder
                     Description = "Ancient coastal town UNESCO site",
                     Location = "Nesebar",
                     Rating = 9,
-                    CategoryId = categories.First(c => c.Name == "Sea").Id
+                    CategoryId = categories.First(c => c.Name == "Sea").Id,
+                    ImageUrl = "/uploads/nesebar.png"
                 },
                 new PhotoSpot
                 {
@@ -47,7 +49,8 @@ public static class DbSeeder
                     Description = "Capital city center",
                     Location = "Sofia",
                     Rating = 8,
-                    CategoryId = categories.First(c => c.Name == "City").Id
+                    CategoryId = categories.First(c => c.Name == "City").Id,
+                    ImageUrl = "/uploads/sofia.png"
                 }
             );
 
