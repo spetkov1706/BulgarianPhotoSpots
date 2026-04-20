@@ -21,7 +21,7 @@ namespace BulgarianPhotoSpots.Models
 
         public PhotoSpot? PhotoSpot { get; set; }
 
-        public DateTime CreatedOn { get; set; }
+        public DateTime CreatedOn { get; set; } = DateTime.Now;
 
         public string UserId { get; set; } = null!;
 

@@ -66,7 +66,8 @@ namespace BulgarianPhotoSpots.Controllers
                 Comment = model.Comment,
                 Rating = model.Rating,
                 PhotoSpotId = model.PhotoSpotId,
-                AuthorName = User.Identity?.Name ?? "Anonymous"
+                AuthorName = User.Identity?.Name ?? "Anonymous",
+                CreatedOn = DateTime.Now
             };
 
             review.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);

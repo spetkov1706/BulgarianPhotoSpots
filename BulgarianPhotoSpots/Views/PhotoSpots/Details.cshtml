@@ -10,8 +10,6 @@
     </div>
 }
 
-<p>Is Admin: @User.IsInRole("Admin")</p>
-
 <div class="card mt-3">
     <div class="card-body">
         <h4 class="card-title">@Model.Title</h4>
@@ -69,7 +67,22 @@
 
     @foreach (var review in Model.Reviews)
     {
-        <partial name="_ReviewPartial" model="review" />
+        <div class="card mt-2">
+            <div class="card-body">
+
+                <div>
+                    <strong>@review.AuthorName</strong>
+                    <small class="text-muted ms-2">
+                        @review.CreatedOn.ToString("dd.MM.yyyy HH:mm")
+                    </small>
+                </div>
+
+                <p>@review.Comment</p>
+
+                <p>Rating: @review.Rating</p>
+
+            </div>
+        </div>
     }
 }
 else
