@@ -4,14 +4,35 @@
     ViewData["Title"] = "Create Category";
 }
 
-<h1>Create Category</h1>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-header bg-primary text-white text-center py-3">
+                    <h3 class="mb-0">Create New Category</h3>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Create" enctype="multipart/form-data"> <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label fw-bold"></label>
+                            <input asp-for="Name" class="form-control" placeholder="e.g. Mountains" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
 
-<form asp-action="Create">
-    <div class="form-group mb-2">
-        <label asp-for="Name"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Category Cover Image</label>
+                            <input type="file" name="imageFile" class="form-control" accept="image/*" />
+                            <small class="text-muted">This image will be used as background for the category card.</small>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">Create Category</button>
+                            <a asp-action="Index" class="btn btn-outline-secondary">Back to List</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <button type="submit" class="btn btn-primary">Create</button>
-</form>
+</div>

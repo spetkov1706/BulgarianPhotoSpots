@@ -12,5 +12,7 @@ namespace BulgarianPhotoSpots.Models
 
         public ICollection<PhotoSpot> PhotoSpots { get; set; } 
             = new List<PhotoSpot>();
+
+        public string? ImageUrl { get; set; }
     }
 }

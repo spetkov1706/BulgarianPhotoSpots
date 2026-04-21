@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BulgarianPhotoSpots.Core.Interfaces;
 using BulgarianPhotoSpots.Models;
 using Microsoft.AspNetCore.Authorization;
-using BulgarianPhotoSpots.Core.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BulgarianPhotoSpots.Controllers
 {
@@ -33,25 +34,43 @@ namespace BulgarianPhotoSpots.Controllers
         }
 
         // GET: Categories/Create
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             var model = new Category();
-
             return View(model);
         }
 
         // POST: Categories/Create
-        [Authorize]
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Category category)
+        public async Task<IActionResult> Create([Bind("Name")] Category category, IFormFile imageFile)
         {
-            if (!ModelState.IsValid)
-                return View(category);
+            if (ModelState.IsValid)
+            {
+                if (imageFile != null && imageFile.Length > 0)
+                {
+                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", fileName);
 
-            await _categoryService.CreateAsync(category);
-            return RedirectToAction(nameof(Index));
+                    if (!Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads")))
+                    {
+                        Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads"));
+                    }
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await imageFile.CopyToAsync(stream);
+                    }
+
+                    category.ImageUrl = "/uploads/" + fileName;
+                }
+
+                await _categoryService.CreateAsync(category);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(category);
         }
 
         // GET: Categories/Edit
@@ -70,7 +89,7 @@ namespace BulgarianPhotoSpots.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Category category)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,ImageUrl")] Category category)
         {
             if (id != category.Id)
                 return NotFound();
@@ -95,7 +114,7 @@ namespace BulgarianPhotoSpots.Controllers
         }
 
         // POST: Categories/Delete
-        [Authorize(Roles = "Admin")] 
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
