@@ -10,22 +10,20 @@ namespace BulgarianPhotoSpots.Controllers
 {
     public class ReviewController : Controller
     {
-        public IActionResult Index(string? sort)
+        public async Task<IActionResult> Index(string sortOrder)
         {
-            ViewBag.CurrentSort = sort;
+            IQueryable<Review> reviewsQuery = _context.Reviews;
 
-            var reviews = _context.Reviews
-                .Include(r => r.PhotoSpot)
-                .AsQueryable();
-
-            reviews = sort switch
+            reviewsQuery = sortOrder switch
             {
-                "rating_desc" => reviews.OrderByDescending(r => r.Rating),
-                "rating_asc" => reviews.OrderBy(r => r.Rating),
-                _ => reviews.OrderByDescending(r => r.Id) 
+                "highest" => reviewsQuery.OrderByDescending(r => r.Rating),
+                "lowest" => reviewsQuery.OrderBy(r => r.Rating),
+                "newest" => reviewsQuery.OrderByDescending(r => r.Id),
+                _ => reviewsQuery.OrderByDescending(r => r.Id) 
             };
 
-            return View(reviews.ToList());
+            var reviews = await reviewsQuery.ToListAsync();
+            return View(reviews);
         }
 
         private readonly ApplicationDbContext _context;

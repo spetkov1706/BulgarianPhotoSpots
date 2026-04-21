@@ -1,49 +1,115 @@
 ﻿@model List<BulgarianPhotoSpots.Models.Review>
+@using BulgarianPhotoSpots.Models
 
-<h1>Reviews</h1>
+@{
+    ViewData["Title"] = "Community Reviews";
+}
 
-<div class="mb-3">
-    <strong>Sort by:</strong>
+<div class="container mt-5 mb-5">
+    <div class="row align-items-center mb-5">
+        <div class="col-md-6">
+            <h1 class="fw-bold display-5">Community <span class="text-primary">Reviews</span></h1>
+            <p class="text-muted">What photographers think about these locations.</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+            <div class="btn-group shadow-sm rounded-pill overflow-hidden" role="group">
+                <a asp-action="Index" asp-route-sortOrder="newest"
+                       class="btn btn-white border-end px-3 py-2 @(Context.Request.Query["sortOrder"] == "newest" || string.IsNullOrEmpty(Context.Request.Query["sortOrder"]) ? "active" : "")">
+                    Newest
+                </a>
+                <a asp-action="Index" asp-route-sortOrder="highest"
+                       class="btn btn-white border-end px-3 py-2 @(Context.Request.Query["sortOrder"] == "highest" ? "active" : "")">
+                    Highest Rating
+                </a>
+                <a asp-action="Index" asp-route-sortOrder="lowest"
+                       class="btn btn-white px-3 py-2 @(Context.Request.Query["sortOrder"] == "lowest" ? "active" : "")">
+                    Lowest Rating
+                </a>
+            </div>
+        </div>
+    </div>
 
-    <a asp-action="Index"
-       asp-route-sort=""
-       class="btn btn-sm btn-outline-primary">Newest</a>
+    <div class="row g-4">
+        @foreach (var item in Model)
+        {
+            <div class="col-12">
+                <div class="card border-0 shadow-sm rounded-4 review-card p-4">
+                    <div class="row align-items-center">
+                        <div class="col-md-2 text-center border-end d-none d-md-block">
+                            <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 60px; height: 60px;">
+                                <i class="bi bi-chat-left-quote-fill text-primary fs-3"></i>
+                            </div>
+                            <h6 class="small fw-bold text-uppercase text-muted mb-0">Review</h6>
+                        </div>
 
-    <a asp-action="Index"
-       asp-route-sort="rating_desc"
-       class="btn btn-sm btn-outline-warning">Highest Rating</a>
+                        <div class="col-md-7 ps-md-4 mt-3 mt-md-0">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="rating-stars me-3">
+                                    @for (int i = 1; i <= 10; i++)
+                                    {
+                                        <i class="bi bi-star-fill @(i <= item.Rating ? "text-warning" : "text-light") small"></i>
+                                    }
+                                </div>
+                                <span class="badge bg-warning text-dark fw-bold rounded-pill">@item.Rating / 10</span>
+                            </div>
+                            <h5 class="fw-normal mb-0 font-italic text-dark" style="font-style: italic;">
+                                "@item.Comment"
+                            </h5>
+                        </div>
 
-    <a asp-action="Index"
-       asp-route-sort="rating_asc"
-       class="btn btn-sm btn-outline-secondary">Lowest Rating</a>
+                        <div class="col-md-3 text-md-end mt-4 mt-md-0">
+                            <a asp-controller="PhotoSpots" asp-action="Details" asp-route-id="@item.PhotoSpotId" class="btn btn-outline-primary rounded-pill px-4 hover-lift">
+                                <i class="bi bi-geo-alt-fill me-2"></i>View Spot
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
 
-@foreach (var review in Model)
-{
-    <div class="border p-3 mb-3 rounded">
-    
-        <p><strong>Comment:</strong> @review.Comment</p>
-        <p>
-            <strong>Rating:</strong> @review.Rating
-            @for (int i = 1; i <= 5; i++)
-            {
-                if (i <= review.Rating / 2)
-                {
-                    <span style="color:gold;">★</span>
-                }
-                else
-                {
-                    <span style="color:lightgray;">★</span>
-                }
-            }
-        </p>
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
 
-        <a asp-controller="PhotoSpots"
-               asp-action="Details"
-               asp-route-id="@review.PhotoSpotId"
-               class="btn btn-sm btn-info">
-            View Spot
-        </a>
+    .review-card {
+        transition: all 0.3s ease;
+        border: 1px solid rgba(0,0,0,0.05);
+    }
 
-    </div>
-}
+        .review-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05) !important;
+            border-left: 5px solid #0d6efd;
+        }
+
+    .btn-white {
+        background-color: white;
+        color: #6c757d;
+        border: 1px solid #dee2e6;
+        font-size: 0.9rem;
+    }
+
+        .btn-white.active {
+            background-color: #0d6efd;
+            color: white;
+            border-color: #0d6efd;
+        }
+
+    .rating-stars {
+        color: #ffc107;
+        font-size: 0.85rem;
+    }
+
+    .hover-lift {
+        transition: transform 0.2s ease;
+    }
+
+        .hover-lift:hover {
+            transform: translateY(-3px);
+            background-color: #0d6efd;
+            color: white;
+        }
+</style>
