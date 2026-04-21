@@ -1,105 +1,28 @@
-# BulgarianPhotoSpots
+# BulgarianPhotoSpots 📸
 
-## 📌 Description
+BulgarianPhotoSpots is an advanced ASP.NET Core MVC web application designed for discovering, sharing, and reviewing the most beautiful photography locations across Bulgaria.
 
-A web application for managing photography locations in Bulgaria.  
-Allows creating, editing, deleting, and viewing categories and photo spots.
+## 🌟 Key Features
+- **Photo Spot Management**: Full CRUD operations for photography locations with category organization.
+- **Reviews & Ratings**: Users can leave feedback and rate locations to help others.
+- **Favorites System**: Authenticated users can save spots to their personal "My Favorites" list.
+- [cite_start]**Search & Filtering**: Advanced filtering by location, category, and keyword search with built-in pagination. [cite: 39, 40]
+- [cite_start]**Error Handling**: Custom user-friendly pages for 404 (Not Found) and 500 (Internal Server Error) status codes. [cite: 33, 34, 35]
 
-The project demonstrates the use of layered architecture, separation of concerns, and best practices in ASP.NET Core MVC.
+## 🔐 Identity & Authorization
+[cite_start]The system implements a robust **Role-Based Access Control (RBAC)** using ASP.NET Identity: [cite: 25, 26]
+- **User**: Can manage their own spots, write reviews, and save favorites.
+- **Administrator**: Has full access to manage all photo spots, reviews, and categories.
 
----
+## 🏗 Architecture & Design
+[cite_start]The project follows a **Clean Layered Architecture** to ensure loose coupling and high cohesion: [cite: 48, 52]
+- [cite_start]**Web Layer**: Controllers, Razor Views, and UI logic. [cite: 12, 14]
+- [cite_start]**Core Layer**: Business logic, Service interfaces, and ViewModels. [cite: 37]
+- [cite_start]**Infrastructure Layer**: Data access with Entity Framework Core and SQL Server. [cite: 17, 19]
 
-## 🚀 Running the Project
-
-1. Clone the repository:
-
-
-git clone <repo-url>
-
-
-2. Open the project in Visual Studio
-
-3. Set up the database:
-
-* Open **Package Manager Console**
-* Run:
-
-
-Add-Migration InitialCreate
-Update-Database
-
-
-4. Run the project:
-
-
-Ctrl + F5
-
-
----
-
-## 🔐 Authentication
-
-The application uses ASP.NET Identity.
-
-Supported features:
-- Register
-- Login
-- Logout
-
----
-
-## 🧱 Architecture
-
-The project is structured into layers:
-
-- **BulgarianPhotoSpots (Web)**  
-  Controllers, Views, UI logic
-
-- **BulgarianPhotoSpots.Core**  
-  Interfaces, business logic, ViewModels
-
-- **BulgarianPhotoSpots.Infrastructure**  
-  DbContext, Entity Framework, services
-
----
-
-## ⚙️ Features
-
-### Categories
-- Create
-- Edit
-- Delete
-- Details
-
-### PhotoSpots
-- Create (with category dropdown)
-- Edit
-- Delete
-- Details
-
----
-
-## 🧪 Testing
-
-The application has been tested manually by:
-
-- creating records
-- editing
-- deleting
-- validating input data
-- testing invalid IDs (returns NotFound)
-
----
-
-## 📦 Technologies
-
-- ASP.NET Core MVC
-- Entity Framework Core
-- SQL Server
-- ASP.NET Identity
-
----
-
-## ✅ Status
-
-The application is fully functional and ready for demonstration.
+## 🛠 Setup & Database
+1. Clone the repository.
+2. Update the connection string in `appsettings.json`.
+3. Open **Package Manager Console** and run:
+   ```powershell
+   Update-Database
