@@ -1,67 +1,144 @@
-﻿@model BulgarianPhotoSpots.Core.Models.UserProfile
-
-<h2>My Profile</h2>
-
-<h4>@ViewBag.Username</h4>
-
-@if (Model == null)
-{
-    <p>You don't have a profile yet.</p>
-    <a asp-action="Create">Create Profile</a>
-}
-else
-{
-    <div style="border:1px solid #ccc; padding:15px; border-radius:10px; margin-bottom:15px;">
-        <img src="@Model.ProfilePictureUrl" width="150" />
-
-        <p><strong>Bio:</strong> @Model.Bio</p>
-
-        <p><strong>Created:</strong> @Model.CreatedOn</p>
-    </div>
-
-    <a asp-action="Edit" class="btn btn-warning">Edit Profile</a>
-}
-
-<hr />
-
-<h3>❤️ My Favorite Spots</h3>
+﻿@model BulgarianPhotoSpots.ViewModels.UserProfileViewModel
 
 @{
-    var favorites = ViewBag.Favorites as List<BulgarianPhotoSpots.Core.Models.Favorite>;
+    ViewData["Title"] = "My Profile";
 }
 
-@if (favorites == null || favorites.Count == 0)
-{
-    <p>No favorites yet.</p>
-}
-else
-{
-    foreach (var fav in favorites)
+<div class="container mt-5 mb-5">
+    <div class="card border-0 shadow-lg rounded-5 overflow-hidden mb-5 bg-white">
+        <div class="row g-0 align-items-center p-4 p-md-5">
+            <div class="col-md-3 text-center mb-4 mb-md-0">
+                <div class="position-relative d-inline-block">
+                    @if (!string.IsNullOrEmpty(Model.ProfilePictureUrl))
+                    {
+                        <img src="@Model.ProfilePictureUrl" class="rounded-circle shadow-sm border border-4 border-white" style="width: 180px; height: 180px; object-fit: cover;" alt="Profile">
+                    }
+                    else
+                    {
+                        <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center border border-4 border-white shadow-sm" style="width: 180px; height: 180px;">
+                            <i class="bi bi-person-fill text-primary" style="font-size: 5rem;"></i>
+                        </div>
+                    }
+                    <a asp-action="Edit" class="position-absolute bottom-0 end-0 bg-primary text-white rounded-circle p-2 shadow-sm border border-2 border-white" title="Change Photo">
+                        <i class="bi bi-camera-fill"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-9 ps-md-5">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div>
+                        <h1 class="fw-bold display-5 mb-1">@User.Identity?.Name</h1>
+                        <p class="text-muted fs-6 mb-0">
+                            <i class="bi bi-envelope-at me-1"></i> @User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value
+                        </p>
+                    </div>
+                    <div>
+                        @if (Model.HasProfile)
+                        {
+                            <a asp-action="Edit" class="btn btn-outline-primary rounded-pill px-4 shadow-sm">
+                                <i class="bi bi-pencil-square me-2"></i>Edit Profile
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-action="Create" class="btn btn-primary rounded-pill px-4 shadow-sm">
+                                <i class="bi bi-plus-circle me-2"></i>Create Profile
+                            </a>
+                        }
+                    </div>
+                </div>
+                
+                @if (!string.IsNullOrEmpty(Model.Bio))
+                {
+                    <div class="bg-light p-4 rounded-4 position-relative">
+                        <i class="bi bi-quote fs-3 text-primary opacity-25 position-absolute top-0 start-0 m-2"></i>
+                        <p class="mb-0 text-dark opacity-75 ps-3">@Model.Bio</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="p-3 border border-dashed rounded-4">
+                        <p class="text-muted fst-italic mb-0">You haven't added a bio yet. Tell us about your photography journey!</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex align-items-center mb-4 ps-2">
+        <div class="bg-danger bg-opacity-10 rounded-circle p-2 me-3">
+            <i class="bi bi-heart-fill text-danger fs-4"></i>
+        </div>
+        <h2 class="fw-bold mb-0">My Favorite Spots</h2>
+    </div>
+
+    @if (Model.FavoriteSpots != null && Model.FavoriteSpots.Any())
     {
-        <div style="border:1px solid #ddd; padding:12px; margin-bottom:12px; border-radius:8px;">
-
-            <h4>@fav.PhotoSpot.Title</h4>
-
-            <p>@fav.PhotoSpot.Description</p>
-
-            <p>📍 @fav.PhotoSpot.Location</p>
-
-            <p>⭐ @fav.PhotoSpot.Rating</p>
-
-            <a asp-controller="PhotoSpots"
-                   asp-action="Details"
-                   asp-route-id="@fav.PhotoSpot.Id"
-                   style="margin-right:10px;">
-                🔍 View Details
-            </a>
-
-            <a asp-controller="Favorite"
-                   asp-action="Remove"
-                   asp-route-id="@fav.Id"
-                   style="color:red; font-weight:bold;">
-                💔 Remove
-            </a>
-
+        <div class="row g-4">
+            @foreach (var spot in Model.FavoriteSpots)
+            {
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm rounded-4 overflow-hidden favorite-card">
+                        <div class="row g-0 align-items-center">
+                            <div class="col-md-3 position-relative" style="height: 180px;">
+                                <img src="@spot.ImageUrl" class="img-fluid h-100 w-100" style="object-fit: cover;" alt="@spot.Title">
+                            </div>
+                            <div class="col-md-9 p-4">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h4 class="fw-bold mb-1">@spot.Title</h4>
+                                        <p class="text-muted small mb-0"><i class="bi bi-geo-alt-fill text-primary me-1"></i> @spot.Location</p>
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <a asp-controller="PhotoSpots" asp-action="Details" asp-route-id="@spot.Id" class="btn btn-sm btn-light rounded-pill px-3 shadow-sm">
+                                            <i class="bi bi-eye me-1"></i> Details
+                                        </a>
+                                        <form asp-controller="Favorite" asp-action="Remove" asp-route-id="@spot.FavoriteId" method="post" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill px-3 shadow-sm">
+                                                <i class="bi bi-heartbreak me-1"></i> Remove
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
     }
-}
+    else
+    {
+        <div class="text-center py-5 bg-white rounded-5 shadow-sm border border-dashed">
+            <i class="bi bi-camera2 display-4 text-light mb-3"></i>
+            <h4 class="text-muted">No favorite spots yet.</h4>
+            <p class="text-muted small">Explore the map and save your favorite locations here.</p>
+            <a asp-controller="PhotoSpots" asp-action="Index" class="btn btn-dark rounded-pill px-5 mt-3 shadow">Explore Now</a>
+        </div>
+    }
+</div>
+
+<style>
+    body { background-color: #f8f9fa; }
+    .rounded-5 { border-radius: 2.5rem !important; }
+    .rounded-4 { border-radius: 1.5rem !important; }
+    
+    .favorite-card {
+        transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    }
+    
+    .favorite-card:hover { 
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+    
+    .border-dashed { 
+        border: 2px dashed #dee2e6 !important; 
+        background-color: rgba(255,255,255,0.5);
+    }
+
+    .btn-outline-primary:hover, .btn-primary {
+        box-shadow: 0 4px 10px rgba(13, 110, 253, 0.2);
+    }
+</style>
