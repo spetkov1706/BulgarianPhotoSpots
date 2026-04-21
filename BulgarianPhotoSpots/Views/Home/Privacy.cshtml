@@ -1,5 +1,71 @@
-﻿<h1>Privacy Policy</h1>
+﻿@{
+    ViewData["Title"] = "Privacy Policy";
+}
 
-<p>This application does not collect personal data beyond authentication.</p>
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="text-center mb-5">
+                <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                    <i class="bi bi-shield-lock-fill text-primary fs-1"></i>
+                </div>
+                <h1 class="fw-bold display-5">@ViewData["Title"]</h1>
+                <p class="text-muted">Your security and trust are important to us.</p>
+            </div>
 
-<p>Your data is used only for application functionality.</p>
+            <div class="card border-0 shadow-sm rounded-4 p-5 mb-4 bg-white">
+                <div class="d-flex align-items-start mb-4">
+                    <div class="flex-shrink-0 bg-light rounded-3 p-3 me-3 text-primary">
+                        <i class="bi bi-info-circle-fill fs-4"></i>
+                    </div>
+                    <div>
+                        <h4 class="fw-bold">Data Collection</h4>
+                        <p class="text-muted lead mb-0">
+                            This application does not collect personal data beyond basic authentication requirements. 
+                            We value your privacy and ensure that your information is used solely for the intended 
+                            functionalities of <strong>BulgarianPhotoSpots</strong>.
+                        </p>
+                    </div>
+                </div>
+
+                <hr class="my-4 opacity-10">
+
+                <div class="d-flex align-items-start">
+                    <div class="flex-shrink-0 bg-light rounded-3 p-3 me-3 text-success">
+                        <i class="bi bi-check-circle-fill fs-4"></i>
+                    </div>
+                    <div>
+                        <h4 class="fw-bold">Usage Policy</h4>
+                        <p class="text-muted lead mb-0">
+                            Your data is used only for application functionality, such as managing your profile, 
+                            saving favorites, and posting reviews. We do not share your information with third parties.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <p class="small text-muted">Last updated: April 2026</p>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-outline-dark rounded-pill px-4">
+                    <i class="bi bi-arrow-left me-2"></i>Return Home
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+    .rounded-4 {
+        border-radius: 1.5rem !important;
+    }
+    .container {
+        animation: fadeIn 0.7s ease-in-out;
+    }
+    @@keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>ality.</p>
